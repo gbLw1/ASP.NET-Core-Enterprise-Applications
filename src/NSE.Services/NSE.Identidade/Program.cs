@@ -23,7 +23,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>()
 var appSettingsSection = builder.Configuration.GetSection("AppSettings");
 builder.Services.Configure<AppSettings>(appSettingsSection);
 
-var appSettings = builder.Configuration.Get<AppSettings>();
+var appSettings = appSettingsSection.Get<AppSettings>();
 var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
 builder.Services.AddAuthentication(options =>
