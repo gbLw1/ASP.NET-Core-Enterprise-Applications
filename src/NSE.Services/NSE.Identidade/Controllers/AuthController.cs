@@ -89,10 +89,20 @@ public class AuthController : MainController
         return CustomResponse();
     }
 
+    #region Geração do JWT
+
     private async Task<UsuarioRespostaLogin> GerarJwt(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
         var claims = await _userManager.GetClaimsAsync(user);
+        var identityClaims = await ObterClaimsUsuario(claims, user);
+        var encodedToken = CodificarToken(identityClaims);
+
+        return ObterRespostaToken(encodedToken, user, claims);
+    }
+
+    private async Task<ClaimsIdentity> ObterClaimsUsuario(ICollection<Claim> claims, IdentityUser user)
+    {
         var userRoles = await _userManager.GetRolesAsync(user);
 
         claims.Add(new Claim(type: JwtRegisteredClaimNames.Sub, value: user.Id));
@@ -107,8 +117,14 @@ public class AuthController : MainController
         }
 
         var identityClaims = new ClaimsIdentity();
+
         identityClaims.AddClaims(claims);
 
+        return identityClaims;
+    }
+
+    private string CodificarToken(ClaimsIdentity identityClaims)
+    {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
@@ -121,8 +137,11 @@ public class AuthController : MainController
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         });
 
-        var encodedToken = tokenHandler.WriteToken(token);
+        return tokenHandler.WriteToken(token); // encodedToken
+    }
 
+    private UsuarioRespostaLogin ObterRespostaToken(string encodedToken, IdentityUser user, IEnumerable<Claim> claims)
+    {
         var response = new UsuarioRespostaLogin
         {
             AccessToken = encodedToken,
@@ -140,4 +159,6 @@ public class AuthController : MainController
 
     private static long ToUnixEpochDate(DateTime date)
         => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+
+    #endregion
 }
