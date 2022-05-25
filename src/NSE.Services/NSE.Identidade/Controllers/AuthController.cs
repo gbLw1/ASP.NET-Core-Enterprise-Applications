@@ -1,4 +1,3 @@
-// using System.IdentityModel.Tokens.Jwt;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -13,7 +12,7 @@ namespace NSE.Identidade.Controllers;
 
 [ApiController]
 [Route("api/identidade")]
-public class AuthController : Controller
+public class AuthController : MainController
 {
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
@@ -34,7 +33,7 @@ public class AuthController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest();
+            return CustomResponse(ModelState);
         }
 
         var user = new IdentityUser
@@ -48,12 +47,17 @@ public class AuthController : Controller
 
         if (!result.Succeeded)
         {
-            return BadRequest();
+            foreach (var error in result.Errors)
+            {
+                Erros.Add(error.Description);
+            }
+
+            return CustomResponse();
         }
 
         await _signInManager.SignInAsync(user: user, isPersistent: false);
 
-        return Ok(await GerarJwt(usuario.Email));
+        return CustomResponse(await GerarJwt(usuario.Email));
     }
 
     [HttpPost("autenticar")]
@@ -61,7 +65,7 @@ public class AuthController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest();
+            return CustomResponse(ModelState);
         }
 
         var result = await _signInManager.PasswordSignInAsync(
@@ -70,12 +74,19 @@ public class AuthController : Controller
             isPersistent: false,
             lockoutOnFailure: true);
 
-        if (!result.Succeeded)
+        if (result.Succeeded)
         {
-            return BadRequest();
+            return CustomResponse(await GerarJwt(usuario.Email));
         }
 
-        return Ok(await GerarJwt(usuario.Email));
+        if (result.IsLockedOut)
+        {
+            Erros.Add("Usuário temporariamente bloqueado por tentativas inválidas.");
+            return CustomResponse();
+        }
+
+        Erros.Add("Usuário ou Senha incorretos.");
+        return CustomResponse();
     }
 
     private async Task<UsuarioRespostaLogin> GerarJwt(string email)
@@ -128,5 +139,5 @@ public class AuthController : Controller
     }
 
     private static long ToUnixEpochDate(DateTime date)
-        => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0 ,0, TimeSpan.Zero)).TotalSeconds);
+        => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
 }
