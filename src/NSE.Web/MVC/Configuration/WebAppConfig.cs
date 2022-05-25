@@ -9,7 +9,6 @@ public static class WebAppConfig
 
     public static void UseMvcConfiguration(this IApplicationBuilder app, IWebHostEnvironment environment)
     {
-
         if (environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
