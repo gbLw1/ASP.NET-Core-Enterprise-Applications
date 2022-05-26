@@ -4,6 +4,6 @@ namespace MVC.Services;
 
 public interface IAutenticacaoService
 {
-    Task<string> Login(UsuarioLogin usuario);
-    Task<string> Registro(UsuarioRegistro usuario);
+    Task<UsuarioRespostaLogin> Login(UsuarioLogin usuario);
+    Task<UsuarioRespostaLogin> Registro(UsuarioRegistro usuario);
 }

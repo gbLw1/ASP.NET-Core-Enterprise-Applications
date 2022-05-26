@@ -13,7 +13,7 @@ public class AutenticacaoService : IAutenticacaoService
         _httpClient = httpClient;
     }
 
-    public async Task<string> Login(UsuarioLogin usuario)
+    public async Task<UsuarioRespostaLogin> Login(UsuarioLogin usuario)
     {
         var loginContent = new StringContent(
             content: JsonSerializer.Serialize(usuario),
@@ -24,17 +24,17 @@ public class AutenticacaoService : IAutenticacaoService
             requestUri: "https://localhost:7044/api/identidade/autenticar",
             content: loginContent);
 
-        var result = JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
-
-        if (string.IsNullOrWhiteSpace(result))
+        var options = new JsonSerializerOptions
         {
-            throw new ArgumentException();
-        }
+            PropertyNameCaseInsensitive = true
+        };
+
+        var result = JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
 
         return result;
     }
 
-    public async Task<string> Registro(UsuarioRegistro usuario)
+    public async Task<UsuarioRespostaLogin> Registro(UsuarioRegistro usuario)
     {
         var registroContent = new StringContent(
             content: JsonSerializer.Serialize(usuario),
@@ -45,12 +45,12 @@ public class AutenticacaoService : IAutenticacaoService
             requestUri: "https://localhost:7044/api/identidade/nova-conta",
             content: registroContent);
 
-        var result = JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
-
-        if (string.IsNullOrWhiteSpace(result))
+        var options = new JsonSerializerOptions
         {
-            throw new ArgumentException();
-        }
+            PropertyNameCaseInsensitive = true
+        };
+
+        var result = JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
 
         return result;
     }

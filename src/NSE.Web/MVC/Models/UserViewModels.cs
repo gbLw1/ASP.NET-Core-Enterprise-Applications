@@ -28,3 +28,23 @@ public class UsuarioLogin
     [MaxLength(100, ErrorMessage = "O campo precisa ter no máximo {1} caracteres")]
     public string Senha { get; set; } = string.Empty;
 }
+
+public class UsuarioRespostaLogin
+{
+    public string AccessToken { get; set; } = default!;
+    public double ExpiresIn { get; set; }
+    public UsuarioToken UsuarioToken { get; set; } = default!;
+}
+
+public class UsuarioToken
+{
+    public string Id { get; set; } = default!;
+    public string Email { get; set; } = default!;
+    public IEnumerable<UsuarioClaim> Claims { get; set; } = default!;
+}
+
+public class UsuarioClaim
+{
+    public string Value { get; set; } = default!;
+    public string Type { get; set; } = default!;
+}
