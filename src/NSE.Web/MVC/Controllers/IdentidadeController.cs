@@ -1,10 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
+using MVC.Services;
 using NSE.WebApp.MVC.Models;
 
 namespace MVC.Controllers;
 
 public class IdentidadeController : Controller
 {
+    private readonly IAutenticacaoService _autenticacaoService;
+
+    public IdentidadeController(IAutenticacaoService autenticacaoService)
+    {
+        _autenticacaoService = autenticacaoService;
+    }
+
     [HttpGet]
     [Route("nova-conta")]
     public IActionResult Registro()
@@ -22,7 +30,10 @@ public class IdentidadeController : Controller
         }
 
         // API - Registro
+        var response = await _autenticacaoService.Registro(usuario);
+
         /*
+        TODO
             => if Fail:
                 return View(usuario)
 
@@ -50,7 +61,10 @@ public class IdentidadeController : Controller
         }
 
         // API - Login
+        var response = await _autenticacaoService.Login(usuario);
+
         /*
+        TODO
             => if Fail:
                 return View(usuario)
 
