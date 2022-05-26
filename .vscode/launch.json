@@ -1,0 +1,60 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "NSE.Identidade.API",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build identidade",
+            "program": "${workspaceFolder}/src/NSE.Services/NSE.Identidade/bin/Debug/net6.0/NSE.Identidade.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Identidade",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "NSE.WebApp.MVC",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/NSE.Web/MVC/bin/Debug/net6.0/NSE.WebApp.MVC.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/NSE.Web/MVC",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Compound",
+            "configurations": [
+                "NSE.WebApp.MVC",
+                "NSE.Identidade.API"
+            ],
+            "preLaunchTask": "build"
+        }
+    ]
+}
