@@ -9,7 +9,7 @@ public static class IdentityConfig
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
-                options.LoginPath = "login/";
+                options.LoginPath = "/login";
                 options.AccessDeniedPath = "/acesso-negado";
             });
     }
