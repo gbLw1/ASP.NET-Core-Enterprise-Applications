@@ -2,7 +2,7 @@
     @if (Context.User.Identity.IsAuthenticated)
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" title="Manage">Olá @Context.User.Identity.Name</a>
+            <a class="nav-link text-dark" title="Manage">Olá Usuário</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="Identidade" asp-action="Logout">Sair</a>
