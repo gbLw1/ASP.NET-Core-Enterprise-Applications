@@ -23,7 +23,7 @@ public class AspNetUser : IUser
         _accessor = accessor;
     }
 
-    public string Name => ObterHttpContext()?.User?.Identity?.Name ?? string.Empty;
+    public string Name => ObterHttpContext().User?.Identity?.Name ?? string.Empty;
 
     public bool EstaAutenticado()
         => ObterHttpContext().User?.Identity?.IsAuthenticated ?? false;
