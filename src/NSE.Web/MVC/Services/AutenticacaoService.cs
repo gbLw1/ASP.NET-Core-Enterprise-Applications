@@ -4,7 +4,7 @@ using NSE.WebApp.MVC.Models;
 
 namespace MVC.Services;
 
-public class AutenticacaoService : IAutenticacaoService
+public class AutenticacaoService : Service, IAutenticacaoService
 {
     private readonly HttpClient _httpClient;
 
@@ -29,7 +29,22 @@ public class AutenticacaoService : IAutenticacaoService
             PropertyNameCaseInsensitive = true
         };
 
+        if (!TratarErrosResponse(response))
+        {
+            return new UsuarioRespostaLogin
+            {
+                ResponseResult =
+                    JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
+                    ?? throw new ArgumentNullException(nameof(ResponseResult))
+            };
+        }
+
         var result = JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
+
+        if (result is null)
+        {
+            throw new ArgumentNullException(nameof(result));
+        }
 
         return result;
     }
@@ -50,7 +65,22 @@ public class AutenticacaoService : IAutenticacaoService
             PropertyNameCaseInsensitive = true
         };
 
+        if (!TratarErrosResponse(response))
+        {
+            return new UsuarioRespostaLogin
+            {
+                ResponseResult =
+                    JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
+                    ?? throw new ArgumentNullException(nameof(ResponseResult))
+            };
+        }
+
         var result = JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
+
+        if (result is null)
+        {
+            throw new ArgumentNullException(nameof(result));
+        }
 
         return result;
     }

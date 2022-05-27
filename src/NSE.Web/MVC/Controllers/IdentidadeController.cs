@@ -8,7 +8,7 @@ using NSE.WebApp.MVC.Models;
 
 namespace MVC.Controllers;
 
-public class IdentidadeController : Controller
+public class IdentidadeController : MainController
 {
     private readonly IAutenticacaoService _autenticacaoService;
 
@@ -36,10 +36,14 @@ public class IdentidadeController : Controller
         // API - Registro
         var usuarioResponse = await _autenticacaoService.Registro(usuarioRegistro);
 
+        // Falha Registro
+        if (ResponsePossuiErros(usuarioResponse.ResponseResult))
+        {
+            return View(usuarioRegistro);
+        }
+
         // Realizar Login na APP
         await RealizarLogin(usuarioResponse);
-
-        //TODO: checar login (success / fail)
 
         return RedirectToAction(actionName: "Index", controllerName: "Home");
     }
@@ -63,10 +67,14 @@ public class IdentidadeController : Controller
         // API - Login
         var usuarioResponse = await _autenticacaoService.Login(usuarioLogin);
 
+        // Falha Login
+        if (ResponsePossuiErros(usuarioResponse.ResponseResult))
+        {
+            return View(usuarioLogin);
+        }
+
         // Realizar Login na APP
         await RealizarLogin(usuarioResponse);
-
-        //TODO: checar login (success / fail)
 
         return RedirectToAction(actionName: "Index", controllerName: "Home");
     }
