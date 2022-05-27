@@ -1,3 +1,7 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Services;
 using NSE.WebApp.MVC.Models;
@@ -22,24 +26,20 @@ public class IdentidadeController : Controller
 
     [HttpPost]
     [Route("nova-conta")]
-    public async Task<IActionResult> Registro(UsuarioRegistro usuario)
+    public async Task<IActionResult> Registro(UsuarioRegistro usuarioRegistro)
     {
         if (!ModelState.IsValid)
         {
-            return View(usuario);
+            return View(usuarioRegistro);
         }
 
         // API - Registro
-        var response = await _autenticacaoService.Registro(usuario);
+        var usuarioResponse = await _autenticacaoService.Registro(usuarioRegistro);
 
-        /*
-        TODO
-            => if Fail:
-                return View(usuario)
+        // Realizar Login na APP
+        await RealizarLogin(usuarioResponse);
 
-            => Ok: Realizar Login na APP
-                return RedirectToAction("Index", "Home");
-        */
+        //TODO: checar login (success / fail)
 
         return RedirectToAction(actionName: "Index", controllerName: "Home");
     }
@@ -53,24 +53,20 @@ public class IdentidadeController : Controller
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login(UsuarioLogin usuario)
+    public async Task<IActionResult> Login(UsuarioLogin usuarioLogin)
     {
         if (!ModelState.IsValid)
         {
-            return View(usuario);
+            return View(usuarioLogin);
         }
 
         // API - Login
-        var response = await _autenticacaoService.Login(usuario);
+        var usuarioResponse = await _autenticacaoService.Login(usuarioLogin);
 
-        /*
-        TODO
-            => if Fail:
-                return View(usuario)
+        // Realizar Login na APP
+        await RealizarLogin(usuarioResponse);
 
-            => Ok: Realizar Login na APP
-                return RedirectToAction("Index", "Home");
-        */
+        //TODO: checar login (success / fail)
 
         return RedirectToAction(actionName: "Index", controllerName: "Home");
     }
@@ -83,4 +79,31 @@ public class IdentidadeController : Controller
 
         return RedirectToAction(actionName: "Index", controllerName: "Home");
     }
+
+    private async Task RealizarLogin(UsuarioRespostaLogin usuarioResponse)
+    {
+        var jwtToken = ObterTokenFormatado(usuarioResponse.AccessToken);
+
+        var claims = new List<Claim>();
+        claims.Add(new Claim("JWT", usuarioResponse.AccessToken));
+        claims.AddRange(jwtToken.Claims);
+
+        var identityClaims = new ClaimsIdentity(
+            claims: claims,
+            authenticationType: CookieAuthenticationDefaults.AuthenticationScheme);
+
+        var authProperties = new AuthenticationProperties
+        {
+            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
+            IsPersistent = true
+        };
+
+        await HttpContext.SignInAsync(
+            scheme: CookieAuthenticationDefaults.AuthenticationScheme,
+            principal: new ClaimsPrincipal(identityClaims),
+            properties: authProperties);
+    }
+
+    private static JwtSecurityToken ObterTokenFormatado(string jwtToken)
+        => new JwtSecurityTokenHandler().ReadJwtToken(jwtToken);
 }
