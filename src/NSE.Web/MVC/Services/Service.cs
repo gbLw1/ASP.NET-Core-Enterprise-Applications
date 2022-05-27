@@ -4,7 +4,7 @@ namespace MVC.Services;
 
 public abstract class Service
 {
-    protected bool TratarErrosResponse(HttpResponseMessage response)
+    protected bool HttpResponseHasErrors(HttpResponseMessage response)
     {
         switch ((int)response.StatusCode)
         {
@@ -15,10 +15,10 @@ public abstract class Service
                 throw new CustomHttpResponseException(response.StatusCode);
 
             case 400:
-                return false;
+                return true;
         }
 
         response.EnsureSuccessStatusCode();
-        return true;
+        return false;
     }
 }

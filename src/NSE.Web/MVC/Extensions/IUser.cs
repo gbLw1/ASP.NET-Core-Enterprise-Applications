@@ -58,7 +58,7 @@ public static class ClaimsPrincipalExtensions
 
         var claim = principal.FindFirst("sub");
 
-        return claim?.Value;
+        return claim?.Value ?? throw new ArgumentNullException(nameof(claim));
     }
 
     public static string GetUserEmail(this ClaimsPrincipal principal)
@@ -70,7 +70,7 @@ public static class ClaimsPrincipalExtensions
 
         var claim = principal.FindFirst("email");
 
-        return claim?.Value;
+        return claim?.Value ?? throw new ArgumentNullException(nameof(claim));
     }
 
     public static string GetUserToken(this ClaimsPrincipal principal)
@@ -82,6 +82,6 @@ public static class ClaimsPrincipalExtensions
 
         var claim = principal.FindFirst("JWT");
 
-        return claim?.Value;
+        return claim?.Value ?? throw new ArgumentNullException(nameof(claim));
     }
 }

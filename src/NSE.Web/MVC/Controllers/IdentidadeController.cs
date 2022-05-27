@@ -33,16 +33,13 @@ public class IdentidadeController : MainController
             return View(usuarioRegistro);
         }
 
-        // API - Registro
         var usuarioResponse = await _autenticacaoService.Registro(usuarioRegistro);
 
-        // Falha Registro
-        if (ResponsePossuiErros(usuarioResponse.ResponseResult))
+        if (ResponseResultPossuiErros(usuarioResponse.ResponseResult))
         {
             return View(usuarioRegistro);
         }
 
-        // Realizar Login na APP
         await RealizarLogin(usuarioResponse);
 
         return RedirectToAction(actionName: "Index", controllerName: "Home");
@@ -64,16 +61,13 @@ public class IdentidadeController : MainController
             return View(usuarioLogin);
         }
 
-        // API - Login
         var usuarioResponse = await _autenticacaoService.Login(usuarioLogin);
 
-        // Falha Login
-        if (ResponsePossuiErros(usuarioResponse.ResponseResult))
+        if (ResponseResultPossuiErros(usuarioResponse.ResponseResult))
         {
             return View(usuarioLogin);
         }
 
-        // Realizar Login na APP
         await RealizarLogin(usuarioResponse);
 
         return RedirectToAction(actionName: "Index", controllerName: "Home");
@@ -90,6 +84,11 @@ public class IdentidadeController : MainController
 
     private async Task RealizarLogin(UsuarioRespostaLogin usuarioResponse)
     {
+        if (usuarioResponse.AccessToken is null)
+        {
+            throw new ArgumentNullException(nameof(usuarioResponse.AccessToken));
+        }
+
         var jwtToken = ObterTokenFormatado(usuarioResponse.AccessToken);
 
         var claims = new List<Claim>();

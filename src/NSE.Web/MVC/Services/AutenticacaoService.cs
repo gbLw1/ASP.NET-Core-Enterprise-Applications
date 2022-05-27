@@ -29,7 +29,7 @@ public class AutenticacaoService : Service, IAutenticacaoService
             PropertyNameCaseInsensitive = true
         };
 
-        if (!TratarErrosResponse(response))
+        if (HttpResponseHasErrors(response))
         {
             return new UsuarioRespostaLogin
             {
@@ -41,12 +41,7 @@ public class AutenticacaoService : Service, IAutenticacaoService
 
         var result = JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
 
-        if (result is null)
-        {
-            throw new ArgumentNullException(nameof(result));
-        }
-
-        return result;
+        return result ?? throw new ArgumentNullException(nameof(UsuarioRespostaLogin));
     }
 
     public async Task<UsuarioRespostaLogin> Registro(UsuarioRegistro usuario)
@@ -65,7 +60,7 @@ public class AutenticacaoService : Service, IAutenticacaoService
             PropertyNameCaseInsensitive = true
         };
 
-        if (!TratarErrosResponse(response))
+        if (HttpResponseHasErrors(response))
         {
             return new UsuarioRespostaLogin
             {
@@ -77,11 +72,6 @@ public class AutenticacaoService : Service, IAutenticacaoService
 
         var result = JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
 
-        if (result is null)
-        {
-            throw new ArgumentNullException(nameof(result));
-        }
-
-        return result;
+        return result ?? throw new ArgumentNullException(nameof(UsuarioRespostaLogin));
     }
 }

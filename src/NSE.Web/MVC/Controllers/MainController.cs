@@ -5,7 +5,7 @@ namespace MVC.Controllers;
 
 public class MainController : Controller
 {
-    protected bool ResponsePossuiErros(ResponseResult resposta)
+    protected bool ResponseResultPossuiErros(ResponseResult? resposta)
     {
         if (resposta != null && resposta.Errors!.Mensagens!.Any())
         {
