@@ -77,7 +77,7 @@ public class IdentidadeController : MainController
     [Route("sair")]
     public async Task<IActionResult> Logout()
     {
-        // Limpar o cookie para deslogar o usuário
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
         return RedirectToAction(actionName: "Index", controllerName: "Home");
     }
