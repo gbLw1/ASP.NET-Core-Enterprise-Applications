@@ -23,9 +23,34 @@ public class HomeController : Controller
         return View();
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    [Route("erro/{id:length(3,3)}")]
+    public IActionResult Error(int id)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        var modelErro = new ErrorViewModel();
+
+        if(id == 500)
+        {
+            modelErro.Titulo = "Ocorreu um erro!";
+            modelErro.Mensagem = "Ocorreu um erro! Tente novamente mais tarde ou contate nosso suporte.";
+            modelErro.ErroCode = id;
+        }
+        else if(id == 404)
+        {
+            modelErro.Titulo = "Ops! A página não foi encontrada!";
+            modelErro.Mensagem = "A página que está procurando não existe! <br />Em caso de dúvidas entre em contato com nosso suporte";
+            modelErro.ErroCode = id;
+        }
+        else if(id == 403)
+        {
+            modelErro.Titulo = "Acesso negado";
+            modelErro.Mensagem = "Você não tem permissão para fazer isto.";
+            modelErro.ErroCode = id;
+        }
+        else
+        {
+            return StatusCode(404);
+        }
+
+        return View("Error", modelErro);
     }
 }

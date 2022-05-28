@@ -47,14 +47,15 @@ public class IdentidadeController : MainController
 
     [HttpGet]
     [Route("login")]
-    public IActionResult Login()
+    public IActionResult Login(string? returnUrl = null)
     {
+        ViewData["ReturnUrl"] = returnUrl;
         return View();
     }
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login(UsuarioLogin usuarioLogin)
+    public async Task<IActionResult> Login(UsuarioLogin usuarioLogin, string? returnUrl = null)
     {
         if (!ModelState.IsValid)
         {
@@ -70,7 +71,12 @@ public class IdentidadeController : MainController
 
         await RealizarLogin(usuarioResponse);
 
-        return RedirectToAction(actionName: "Index", controllerName: "Home");
+        if (string.IsNullOrWhiteSpace(returnUrl))
+        {
+            return RedirectToAction(actionName: "Index", controllerName: "Home");
+        }
+
+        return LocalRedirect(returnUrl);
     }
 
     [HttpGet]

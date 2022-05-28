@@ -1,3 +1,5 @@
+using MVC.Extensions;
+
 namespace MVC.Configuration;
 
 public static class WebAppConfig
@@ -9,15 +11,16 @@ public static class WebAppConfig
 
     public static void UseMvcConfiguration(this IApplicationBuilder app, IWebHostEnvironment environment)
     {
-        if (environment.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseExceptionHandler("/Home/Error");
+        // if (environment.IsDevelopment())
+        // {
+        //     app.UseDeveloperExceptionPage();
+        // }
+        // else
+        // {
+            app.UseExceptionHandler("/erro/500");
+            app.UseStatusCodePagesWithRedirects("/erro/{0}");
             app.UseHsts();
-        }
+        // }
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
@@ -25,6 +28,8 @@ public static class WebAppConfig
         app.UseRouting();
 
         app.UseIdentityConfiguration();
+
+        app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseEndpoints(endpoints =>
         {
