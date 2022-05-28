@@ -1,5 +1,3 @@
-using System.Text;
-using System.Text.Json;
 using NSE.WebApp.MVC.Models;
 
 namespace MVC.Services;
@@ -15,63 +13,39 @@ public class AutenticacaoService : Service, IAutenticacaoService
 
     public async Task<UsuarioRespostaLogin> Login(UsuarioLogin usuario)
     {
-        var loginContent = new StringContent(
-            content: JsonSerializer.Serialize(usuario),
-            encoding: Encoding.UTF8,
-            mediaType: "application/json");
+        var loginContent = ObterConteudo(usuario);
 
         var response = await _httpClient.PostAsync(
             requestUri: "https://localhost:7044/api/identidade/autenticar",
             content: loginContent);
 
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
         if (HttpResponseHasErrors(response))
         {
             return new UsuarioRespostaLogin
             {
-                ResponseResult =
-                    JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
-                    ?? throw new ArgumentNullException(nameof(ResponseResult))
+                ResponseResult = await DeserializarObjetoResponse<ResponseResult>(response)
             };
         }
 
-        var result = JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
-
-        return result ?? throw new ArgumentNullException(nameof(UsuarioRespostaLogin));
+        return await DeserializarObjetoResponse<UsuarioRespostaLogin>(response);
     }
 
     public async Task<UsuarioRespostaLogin> Registro(UsuarioRegistro usuario)
     {
-        var registroContent = new StringContent(
-            content: JsonSerializer.Serialize(usuario),
-            encoding: Encoding.UTF8,
-            mediaType: "application/json");
+        var registroContent = ObterConteudo(usuario);
 
         var response = await _httpClient.PostAsync(
             requestUri: "https://localhost:7044/api/identidade/nova-conta",
             content: registroContent);
 
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
         if (HttpResponseHasErrors(response))
         {
             return new UsuarioRespostaLogin
             {
-                ResponseResult =
-                    JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
-                    ?? throw new ArgumentNullException(nameof(ResponseResult))
+                ResponseResult = await DeserializarObjetoResponse<ResponseResult>(response)
             };
         }
 
-        var result = JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
-
-        return result ?? throw new ArgumentNullException(nameof(UsuarioRespostaLogin));
+        return await DeserializarObjetoResponse<UsuarioRespostaLogin>(response);
     }
 }
