@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Options;
+using MVC.Extensions;
 using NSE.WebApp.MVC.Models;
 
 namespace MVC.Services;
@@ -6,9 +8,12 @@ public class AutenticacaoService : Service, IAutenticacaoService
 {
     private readonly HttpClient _httpClient;
 
-    public AutenticacaoService(HttpClient httpClient)
+    public AutenticacaoService(HttpClient httpClient,
+                               IOptions<AppSettings> settings)
     {
         _httpClient = httpClient;
+        _httpClient.BaseAddress = new Uri(settings.Value.AutenticacaoUrl
+            ?? throw new ArgumentNullException(nameof(settings.Value.AutenticacaoUrl)));
     }
 
     public async Task<UsuarioRespostaLogin> Login(UsuarioLogin usuario)
@@ -16,7 +21,7 @@ public class AutenticacaoService : Service, IAutenticacaoService
         var loginContent = ObterConteudo(usuario);
 
         var response = await _httpClient.PostAsync(
-            requestUri: "https://localhost:7044/api/identidade/autenticar",
+            requestUri: "/api/identidade/autenticar",
             content: loginContent);
 
         if (HttpResponseHasErrors(response))
@@ -35,7 +40,7 @@ public class AutenticacaoService : Service, IAutenticacaoService
         var registroContent = ObterConteudo(usuario);
 
         var response = await _httpClient.PostAsync(
-            requestUri: "https://localhost:7044/api/identidade/nova-conta",
+            requestUri: "/api/identidade/nova-conta",
             content: registroContent);
 
         if (HttpResponseHasErrors(response))
