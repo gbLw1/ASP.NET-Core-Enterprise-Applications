@@ -57,7 +57,7 @@ public class AuthController : MainController
 
         await _signInManager.SignInAsync(user: user, isPersistent: false);
 
-        return CustomResponse(await GerarJwt(usuario.Email));
+        return CustomResponse(await GerarJwt(usuario.Email!));
     }
 
     [HttpPost("autenticar")]
@@ -76,7 +76,7 @@ public class AuthController : MainController
 
         if (result.Succeeded)
         {
-            return CustomResponse(await GerarJwt(usuario.Email));
+            return CustomResponse(await GerarJwt(usuario.Email!));
         }
 
         if (result.IsLockedOut)
