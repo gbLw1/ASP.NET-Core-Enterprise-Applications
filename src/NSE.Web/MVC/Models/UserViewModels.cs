@@ -9,8 +9,7 @@ public class UsuarioRegistro
     public string? Email { get; set; }
 
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    [MinLength(6, ErrorMessage = "O campo precisa ter no mínimo {1} caracteres")]
-    [MaxLength(100, ErrorMessage = "O campo precisa ter no máximo {1} caracteres")]
+    [StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 6)]
     public string? Senha { get; set; }
 
     [Compare("Senha", ErrorMessage = "As senhas não conferem.")]
@@ -24,8 +23,7 @@ public class UsuarioLogin
     public string? Email { get; set; }
 
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    [MinLength(6, ErrorMessage = "O campo precisa ter no mínimo {1} caracteres")]
-    [MaxLength(100, ErrorMessage = "O campo precisa ter no máximo {1} caracteres")]
+    [StringLength(100, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 6)]
     public string? Senha { get; set; }
 }
 
