@@ -2,6 +2,26 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "NSE.Catalogo.API",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build catalogo",
+            "program": "${workspaceFolder}/src/NSE.Services/NSE.Catalogo/bin/Debug/net6.0/NSE.Catalogo.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Catalogo",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": "NSE.Identidade.API",
             "type": "coreclr",
             "request": "launch",
@@ -52,7 +72,8 @@
             "name": "Compound",
             "configurations": [
                 "NSE.WebApp.MVC",
-                "NSE.Identidade.API"
+                "NSE.Identidade.API",
+                "NSE.Catalogo.API"
             ],
             "preLaunchTask": "build"
         }
