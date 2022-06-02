@@ -3,17 +3,17 @@
     ViewData["Title"] = Model?.Titulo ?? "Ocorreu um erro";
 }
 
-@{
-    if (Model is null)
-    {
-        <div>
-            <h2>Ooops! Ocorreu um erro, mas não se preocupe. Nosso time será avisado e iremos corrigir em breve!</h2>
-        </div>
-    }
-    else
-    {
-        <div>
-            <h2>@Html.Raw(Model.Mensagem)</h2>
-        </div>
-    }
-}
+<div class="container">
+    <div style="padding-top: 200px; text-align: center">
+        @{
+            if (Model == null)
+            {
+                <h2>Ooops! Ocorreu um erro, mas não se preocupe. Nosso time será avisado e iremos corrigir em breve!</h2>
+            }
+            else
+            {
+                <h2>@Html.Raw(Model.Mensagem)</h2>
+            }
+        }
+    </div>
+</div>
