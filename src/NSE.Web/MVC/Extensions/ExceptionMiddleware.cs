@@ -1,4 +1,6 @@
 using System.Net;
+using Polly.CircuitBreaker;
+using Refit;
 
 namespace MVC.Extensions;
 
@@ -20,6 +22,18 @@ public class ExceptionMiddleware
         catch (CustomHttpResponseException ex)
         {
             HandleResponseExceptionAsync(httpContext, ex);
+        }
+        catch (ValidationApiException ex) // Refit (403)
+        {
+            HandleResponseExceptionAsync(httpContext, ex.StatusCode);
+        }
+        catch (ApiException ex) // Refit (401)
+        {
+            HandleResponseExceptionAsync(httpContext, ex.StatusCode);
+        }
+        catch (BrokenCircuitException) // CircuitException
+        {
+            HandleResponseExceptionAsync(httpContext);
         }
     }
 
@@ -51,6 +65,19 @@ public class ExceptionMiddleware
         }
 
         httpContext.Response.StatusCode = (int)statusCode;
+    }
+
+#endregion
+
+#region CircuitBraker
+
+    /* --------- Refactor: Método refatorado para o uso do CircuitBraker -------- */
+    // ! É necessário adicionar o catch do CircuitBraker
+    // ! ex: BrokenCircuitException
+
+    private static void HandleResponseExceptionAsync(HttpContext httpContext)
+    {
+        httpContext.Response.Redirect("/sistema-indisponivel");
     }
 
 #endregion
