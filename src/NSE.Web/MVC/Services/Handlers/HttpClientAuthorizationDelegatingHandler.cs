@@ -12,6 +12,7 @@ public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
         _user = user;
     }
 
+    // * Handler que intercepta o request e adiciona o token de acesso no Header *
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var authorizationHeader = _user.ObterHttpContext().Request.Headers["Authorization"];
