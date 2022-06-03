@@ -33,4 +33,25 @@ public class ExceptionMiddleware
 
         httpContext.Response.StatusCode = (int)httpResponseException.StatusCode;
     }
+
+#region Refit
+
+    /* ------------- Refactor: Método refatorado para o uso do Refit ------------ */
+    // ! O refit tem suas tratativas de exception próprias.
+    // ! Portanto é necessário adicionar outros "catchs" para tratativas dos erros.
+    // ! ex: ValidationApiException: 403
+    // ! ex: ApiException: 401
+
+    private static void HandleResponseExceptionAsync(HttpContext httpContext, HttpStatusCode statusCode)
+    {
+        if (statusCode == HttpStatusCode.Unauthorized)
+        {
+            httpContext.Response.Redirect($"/login?ReturnUrl={httpContext.Request.Path}");
+            return;
+        }
+
+        httpContext.Response.StatusCode = (int)statusCode;
+    }
+
+#endregion
 }
