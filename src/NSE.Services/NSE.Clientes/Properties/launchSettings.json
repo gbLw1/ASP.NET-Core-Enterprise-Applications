@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "NSE.Cliente.API": {
+    "NSE.Clientes.API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

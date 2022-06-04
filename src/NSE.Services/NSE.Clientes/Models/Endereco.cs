@@ -1,6 +1,6 @@
 using Core.DomainObjects;
 
-namespace NSE.Cliente.Models;
+namespace NSE.Clientes.Models;
 
 public class Endereco : Entity
 {

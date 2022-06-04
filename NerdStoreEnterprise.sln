@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Carrinho.API", "src\NSE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Catalogo.API", "src\NSE.Services\NSE.Catalogo\NSE.Catalogo.API.csproj", "{D6F081AA-1421-4C0E-932C-8B1DDD8F0BF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Cliente.API", "src\NSE.Services\NSE.Cliente\NSE.Cliente.API.csproj", "{7CDC845A-73EB-4084-BB14-32F5AFDE349B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Clientes.API", "src\NSE.Services\NSE.Cliente\NSE.Clientes.API.csproj", "{7CDC845A-73EB-4084-BB14-32F5AFDE349B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Identidade.API", "src\NSE.Services\NSE.Identidade\NSE.Identidade.API.csproj", "{F9070984-5CFE-42BC-8485-DEDA9F6FD068}"
 EndProject
