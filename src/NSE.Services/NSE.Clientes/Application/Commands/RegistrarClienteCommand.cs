@@ -25,7 +25,7 @@ public class RegistrarClienteCommand : Command
         return ValidationResult.IsValid;
     }
 
-    public class RegistrarClienteValidation : AbstractValidator<RegistrarClienteCommand>
+    private class RegistrarClienteValidation : AbstractValidator<RegistrarClienteCommand>
     {
         public RegistrarClienteValidation()
         {
