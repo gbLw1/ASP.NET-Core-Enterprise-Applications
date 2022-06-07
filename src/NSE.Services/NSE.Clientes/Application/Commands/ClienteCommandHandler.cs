@@ -19,7 +19,7 @@ public class ClienteCommandHandler : CommandHandler,
         RegistrarClienteCommand message,
         CancellationToken cancellationToken)
     {
-        if (!message.IsValid())
+        if (message.Valido() is false)
         {
             return message.ValidationResult;
         }

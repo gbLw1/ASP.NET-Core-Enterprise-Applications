@@ -15,7 +15,7 @@ public abstract class Command : Message, IRequest<ValidationResult>
     }
 
     [MemberNotNull(nameof(ValidationResult))]
-    public virtual bool IsValid()
+    public virtual bool Valido()
     {
         throw new NotImplementedException();
     }
