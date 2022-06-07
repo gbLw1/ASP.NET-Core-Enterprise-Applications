@@ -2,6 +2,9 @@ using Core.Mediator;
 using FluentValidation.Results;
 using MediatR;
 using NSE.Clientes.Application.Commands;
+using NSE.Clientes.Data;
+using NSE.Clientes.Data.Repository;
+using NSE.Clientes.Models;
 
 namespace NSE.Clientes.Configuration;
 
@@ -11,5 +14,8 @@ public static class DependencyInjectionConfig
     {
         services.AddScoped<IMediatorHandler, MediatorHandler>();
         services.AddScoped<IRequestHandler<RegistrarClienteCommand, ValidationResult>, ClienteCommandHandler>();
+
+        services.AddScoped<ClientesContext>();
+        services.AddScoped<IClienteRepository, ClienteRepository>();
     }
 }
