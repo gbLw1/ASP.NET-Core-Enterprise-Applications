@@ -1,6 +1,7 @@
 using Core.Messages;
 using FluentValidation.Results;
 using MediatR;
+using NSE.Clientes.Application.Events;
 using NSE.Clientes.Models;
 
 namespace NSE.Clientes.Application.Commands;
@@ -36,6 +37,8 @@ public class ClienteCommandHandler : CommandHandler,
         }
 
         _clienteRepository.Adicionar(cliente);
+
+        cliente.AdicionarEvento(new ClienteRegistradoEvent(message.Id, message.Nome, message.Email, message.Cpf));
 
         return await PersistirDados(_clienteRepository.UnitOfWork);
     }

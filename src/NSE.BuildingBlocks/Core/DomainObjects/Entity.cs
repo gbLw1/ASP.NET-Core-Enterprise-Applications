@@ -1,8 +1,40 @@
+using Core.Messages;
+
 namespace Core.DomainObjects;
 
 public abstract class Entity
 {
     public Guid Id { get; set; }
+
+    protected Entity()
+    {
+        Id = Guid.NewGuid();
+    }
+
+    #region Notificacoes
+
+    private List<Event> _notificacoes;
+    public IReadOnlyCollection<Event> Notificacoes => _notificacoes.AsReadOnly();
+
+    public void AdicionarEvento(Event evento)
+    {
+        _notificacoes = _notificacoes ?? new List<Event>();
+        _notificacoes.Add(evento);
+    }
+
+    public void RemoverEvento(Event evento)
+    {
+        _notificacoes?.Remove(evento);
+    }
+
+    public void LimparEventos()
+    {
+        _notificacoes?.Clear();
+    }
+
+    #endregion
+
+    #region Comparações
 
     public override bool Equals(object? obj)
     {
@@ -39,4 +71,6 @@ public abstract class Entity
     {
         return $"{GetType().Name} [Id={Id}]";
     }
+
+    #endregion
 }
