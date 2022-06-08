@@ -52,9 +52,7 @@ public class ClientesContext : DbContext, IUnitOfWork
 
 public static class MediatorExtension
 {
-    public static async Task PublicarEventos<T>(
-        this IMediatorHandler mediator,
-        T ctx)
+    public static async Task PublicarEventos<T>(this IMediatorHandler mediator, T ctx)
         where T : DbContext
     {
         var domainEntities = ctx.ChangeTracker

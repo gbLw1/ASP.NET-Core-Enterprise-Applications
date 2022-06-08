@@ -9,6 +9,7 @@ public abstract class Entity
     protected Entity()
     {
         Id = Guid.NewGuid();
+        _notificacoes = new List<Event>();
     }
 
     #region Notificacoes
@@ -18,7 +19,6 @@ public abstract class Entity
 
     public void AdicionarEvento(Event evento)
     {
-        _notificacoes = _notificacoes ?? new List<Event>();
         _notificacoes.Add(evento);
     }
 
