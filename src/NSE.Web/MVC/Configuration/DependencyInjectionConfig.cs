@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using MVC.Extensions;
 using MVC.Services;
 using MVC.Services.Handlers;
@@ -11,6 +12,8 @@ public static class DependencyInjectionConfig
 {
     public static void RegisterServices(this IServiceCollection services)
     {
+        services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
+
         services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 
         services.AddHttpClient<IAutenticacaoService, AutenticacaoService>();
