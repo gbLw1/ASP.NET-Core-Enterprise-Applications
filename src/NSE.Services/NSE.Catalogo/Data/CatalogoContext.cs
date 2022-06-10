@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using Core.Data;
+using Core.Messages;
 using Microsoft.EntityFrameworkCore;
 using NSE.Catalogo.Models;
 
@@ -11,11 +13,13 @@ public class CatalogoContext : DbContext, IUnitOfWork
     public CatalogoContext(DbContextOptions<CatalogoContext> options)
         : base(options)
     {
-        Produtos = Set<Produto>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Ignore<ValidationResult>();
+        modelBuilder.Ignore<Event>();
+
         base.OnModelCreating(modelBuilder);
 
         foreach (var property in modelBuilder.Model.GetEntityTypes()

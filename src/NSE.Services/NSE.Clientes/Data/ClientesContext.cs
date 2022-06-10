@@ -1,6 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using Core.Data;
 using Core.DomainObjects;
 using Core.Mediator;
+using Core.Messages;
 using Microsoft.EntityFrameworkCore;
 using NSE.Clientes.Models;
 
@@ -26,6 +28,9 @@ public class ClientesContext : DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Ignore<ValidationResult>();
+        modelBuilder.Ignore<Event>();
+
         foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
             e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
             property.SetColumnType("varchar(100)");

@@ -18,8 +18,8 @@ public class ClienteRepository : IClienteRepository
     public async Task<IEnumerable<Cliente>> ObterTodos()
         => await _context.Clientes.AsNoTracking().ToListAsync();
 
-    public async Task<Cliente> ObterPorCpf(string cpf)
-        => await _context.Clientes.FirstAsync(c => c.Cpf!.Numero == cpf);
+    public async Task<Cliente?> ObterPorCpf(string cpf)
+        => await _context.Clientes.FirstOrDefaultAsync(c => c.Cpf!.Numero == cpf);
 
     public void Adicionar(Cliente cliente)
     {
