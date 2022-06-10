@@ -91,11 +91,12 @@
         {
             "name": "Compound",
             "configurations": [
-                "NSE.WebApp.MVC",
                 "NSE.Identidade.API",
                 "NSE.Catalogo.API",
-                "NSE.Clientes.API"
-            ]
+                "NSE.Clientes.API",
+                "NSE.WebApp.MVC"
+            ],
+            "preLaunchTask": "build BuildingBlocks"
         }
     ]
 }

@@ -50,6 +50,57 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "build Core",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/NSE.BuildingBlocks/Core/",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build MessageBus",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/NSE.BuildingBlocks/MessageBus/NSE.MessageBus/",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build WebAPI.Core",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/NSE.BuildingBlocks/Services/NSE.WebAPI.Core/",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build BuildingBlocks",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "--version",
+            ],
+            "problemMatcher": "$msCompile",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                // "build MessageBus",
+                "build Core",
+                "build WebAPI.Core"
+            ]
+        },
+        {
             "label": "publish",
             "command": "dotnet",
             "type": "process",
