@@ -2,6 +2,18 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "build clientes",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/NSE.Services/NSE.Clientes/NSE.Clientes.API.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "build catalogo",
             "command": "dotnet",
             "type": "process",
@@ -26,7 +38,7 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build",
+            "label": "build mvc",
             "command": "dotnet",
             "type": "process",
             "args": [
