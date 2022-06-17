@@ -1,7 +1,7 @@
 using Core.Messages.Integration;
 using EasyNetQ.Internals;
 
-namespace MessageBus;
+namespace NSE.MessageBus;
 
 public interface IMessageBus : IDisposable
 {

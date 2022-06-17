@@ -4,7 +4,7 @@ using EasyNetQ;
 using FluentValidation.Results;
 using NSE.Clientes.Application.Commands;
 
-namespace NSE.Identidade.Services;
+namespace NSE.Clientes.Services;
 
 public class RegistroClienteIntegrationHandler : BackgroundService
 {

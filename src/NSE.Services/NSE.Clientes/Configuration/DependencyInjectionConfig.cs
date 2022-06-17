@@ -6,8 +6,6 @@ using NSE.Clientes.Application.Events;
 using NSE.Clientes.Data;
 using NSE.Clientes.Data.Repository;
 using NSE.Clientes.Models;
-using NSE.Identidade.Services;
-
 namespace NSE.Clientes.Configuration;
 
 public static class DependencyInjectionConfig
@@ -21,7 +19,5 @@ public static class DependencyInjectionConfig
 
         services.AddScoped<ClientesContext>();
         services.AddScoped<IClienteRepository, ClienteRepository>();
-
-        services.AddHostedService<RegistroClienteIntegrationHandler>();
     }
 }

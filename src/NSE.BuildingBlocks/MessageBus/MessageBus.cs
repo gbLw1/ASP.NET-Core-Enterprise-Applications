@@ -4,7 +4,7 @@ using EasyNetQ.Internals;
 using Polly;
 using RabbitMQ.Client.Exceptions;
 
-namespace MessageBus;
+namespace NSE.MessageBus;
 
 public class MessageBus : IMessageBus
 {
