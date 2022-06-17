@@ -19,7 +19,7 @@ public class MessageBus : IMessageBus
     }
 
     public bool IsConnected => _bus?.Advanced.IsConnected ?? false;
-    public IAdvancedBus AdvancedBus => _bus?.Advanced;
+    public IAdvancedBus AdvancedBus => _bus.Advanced;
 
     public void Publish<T>(T message) where T : IntegrationEvent
     {
@@ -95,7 +95,7 @@ public class MessageBus : IMessageBus
         });
     }
 
-    private void OnDisconnect(object s, EventArgs e)
+    private void OnDisconnect(object? s, EventArgs e)
     {
         var policy = Policy.Handle<EasyNetQException>()
             .Or<BrokerUnreachableException>()
@@ -106,6 +106,6 @@ public class MessageBus : IMessageBus
 
     public void Dispose()
     {
-        _bus.Dispose();
+        _bus?.Dispose();
     }
 }

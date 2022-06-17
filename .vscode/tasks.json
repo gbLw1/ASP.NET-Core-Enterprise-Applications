@@ -67,7 +67,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/NSE.BuildingBlocks/MessageBus/NSE.MessageBus/",
+                "${workspaceFolder}/src/NSE.BuildingBlocks/MessageBus/",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
             ],
@@ -95,7 +95,7 @@
             "problemMatcher": "$msCompile",
             "dependsOrder": "sequence",
             "dependsOn": [
-                // "build MessageBus",
+                "build MessageBus",
                 "build Core",
                 "build WebAPI.Core"
             ]

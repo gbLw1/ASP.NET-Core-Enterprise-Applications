@@ -13,6 +13,7 @@ public class CatalogoContext : DbContext, IUnitOfWork
     public CatalogoContext(DbContextOptions<CatalogoContext> options)
         : base(options)
     {
+        Produtos = Set<Produto>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
