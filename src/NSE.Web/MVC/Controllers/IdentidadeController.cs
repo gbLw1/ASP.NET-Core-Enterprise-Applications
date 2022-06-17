@@ -42,7 +42,7 @@ public class IdentidadeController : MainController
 
         await RealizarLogin(usuarioResponse);
 
-        return RedirectToAction(actionName: "Index", controllerName: "Home");
+        return RedirectToAction(actionName: "Index", controllerName: "Catalogo");
     }
 
     [HttpGet]
@@ -73,7 +73,7 @@ public class IdentidadeController : MainController
 
         if (string.IsNullOrWhiteSpace(returnUrl))
         {
-            return RedirectToAction(actionName: "Index", controllerName: "Home");
+            return RedirectToAction(actionName: "Index", controllerName: "Catalogo");
         }
 
         return LocalRedirect(returnUrl);
@@ -85,7 +85,7 @@ public class IdentidadeController : MainController
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-        return RedirectToAction(actionName: "Index", controllerName: "Home");
+        return RedirectToAction(actionName: "Index", controllerName: "Catalogo");
     }
 
     private async Task RealizarLogin(UsuarioRespostaLogin usuarioResponse)
