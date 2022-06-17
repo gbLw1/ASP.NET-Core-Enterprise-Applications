@@ -2,12 +2,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Core.Messages.Integration;
-using EasyNetQ;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NSE.Identidade.Models;
+using NSE.MessageBus;
 using NSE.WebAPI.Core.Controllers;
 using NSE.WebAPI.Core.Identidade;
 
@@ -19,16 +19,18 @@ public class AuthController : MainController
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly AppSettings _appSettings;
-    private IBus _bus;
+    private readonly IMessageBus _bus;
 
     public AuthController(
         SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,
-        IOptions<AppSettings> appSettings)
+        IOptions<AppSettings> appSettings,
+        IMessageBus bus)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _appSettings = appSettings.Value;
+        _bus = bus;
     }
 
     [HttpPost("nova-conta")]
@@ -46,6 +48,7 @@ public class AuthController : MainController
             EmailConfirmed = true
         };
 
+        // tenta criar o usuário
         var result = await _userManager.CreateAsync(user, usuario.Senha);
 
         if (!result.Succeeded)
@@ -60,25 +63,17 @@ public class AuthController : MainController
 
         await _signInManager.SignInAsync(user: user, isPersistent: false);
 
-        var sucesso = await RegistrarCliente(usuario);
+        // tenta criar o cliente
+        var clienteResult = await RegistrarCliente(usuario);
+
+        // se não conseguir criar o cliente, retorna erro e deleta o usuário
+        if (!clienteResult.ValidationResult.IsValid)
+        {
+            await _userManager.DeleteAsync(user);
+            return CustomResponse(clienteResult.ValidationResult);
+        }
 
         return CustomResponse(await GerarJwt(usuario.Email!));
-    }
-
-    private async Task<ResponseMessage> RegistrarCliente(UsuarioRegistro usuarioRegistro)
-    {
-        var usuario = await _userManager.FindByEmailAsync(usuarioRegistro.Email);
-
-        var usuarioRegistrado = new UsuarioRegistradoIntegrationEvent(
-            Guid.Parse(usuario.Id),
-            usuarioRegistro.Nome!,
-            usuarioRegistro.Email!,
-            usuarioRegistro.Cpf!);
-
-        _bus = RabbitHutch.CreateBus("host=localhost:5672");
-        var sucesso = await _bus.Rpc.RequestAsync<UsuarioRegistradoIntegrationEvent, ResponseMessage>(usuarioRegistrado);
-
-        return sucesso;
     }
 
     [HttpPost("autenticar")]
@@ -108,6 +103,27 @@ public class AuthController : MainController
 
         Erros.Add("Usuário ou Senha incorretos.");
         return CustomResponse();
+    }
+
+    private async Task<ResponseMessage> RegistrarCliente(UsuarioRegistro usuarioRegistro)
+    {
+        var usuario = await _userManager.FindByEmailAsync(usuarioRegistro.Email);
+
+        var usuarioRegistrado = new UsuarioRegistradoIntegrationEvent(
+            Guid.Parse(usuario.Id),
+            usuarioRegistro.Nome!,
+            usuarioRegistro.Email!,
+            usuarioRegistro.Cpf!);
+
+        try
+        {
+            return await _bus.RequestAsync<UsuarioRegistradoIntegrationEvent, ResponseMessage>(usuarioRegistrado);
+        }
+        catch
+        {
+            await _userManager.DeleteAsync(usuario);
+            throw;
+        }
     }
 
     #region Geração do JWT
