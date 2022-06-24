@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using NSE.Carrinho.Data;
 using NSE.WebAPI.Core.Identidade;
 
 namespace NSE.Carrinho.Configuration;
@@ -6,6 +8,9 @@ public static class ApiConfig
 {
     public static void AddApiConfiguration(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddDbContext<CarrinhoContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
         services.AddControllers();
 
         services.AddCors(options =>
