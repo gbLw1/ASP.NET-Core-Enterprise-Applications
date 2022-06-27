@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using MVC.Extensions;
 using MVC.Services;
 using MVC.Services.Handlers;
+using NSE.WebAPI.Core.Usuario;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
@@ -47,7 +48,7 @@ public static class DependencyInjectionConfig
 
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-        services.AddScoped<IUser, AspNetUser>();
+        services.AddScoped<IAspNetUser, AspNetUser>();
     }
 }
 
