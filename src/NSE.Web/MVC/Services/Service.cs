@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using MVC.Extensions;
+using NSE.WebApp.MVC.Models;
 
 namespace MVC.Services;
 
@@ -41,5 +42,10 @@ public abstract class Service
 
         response.EnsureSuccessStatusCode();
         return false;
+    }
+
+    protected ResponseResult RetornoOk()
+    {
+        return new ResponseResult();
     }
 }
