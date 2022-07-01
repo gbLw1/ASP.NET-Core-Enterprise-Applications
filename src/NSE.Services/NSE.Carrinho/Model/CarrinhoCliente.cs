@@ -18,22 +18,17 @@ public class CarrinhoCliente
     }
 
     internal void CalcularValorCarrinho()
-    {
-        ValorTotal = Itens.Sum(i => i.CalcularValor());
-    }
+        => ValorTotal = Itens.Sum(i => i.CalcularValorUnitario());
 
     internal bool CarrinhoItemExistente(CarrinhoItem item)
-    {
-        return Itens.Any(i => i.ProdutoId == item.ProdutoId);
-    }
+        => Itens.Any(i => i.ProdutoId == item.ProdutoId);
 
     internal CarrinhoItem ObterProdutoPorId(Guid produtoId)
-    {
-        return Itens.FirstOrDefault(p => p.ProdutoId == produtoId);
-    }
+        => Itens.First(p => p.ProdutoId == produtoId);
 
     internal void AdicionarItem(CarrinhoItem item)
     {
+        // validação do produto
         if (!item.EhValido())
         {
             return;
@@ -44,6 +39,7 @@ public class CarrinhoCliente
         if (CarrinhoItemExistente(item))
         {
             var itemExistente = ObterProdutoPorId(item.ProdutoId);
+
             itemExistente.AdicionarUnidades(item.Quantidade);
 
             item = itemExistente;
@@ -51,6 +47,37 @@ public class CarrinhoCliente
         }
 
         Itens.Add(item);
+
+        CalcularValorCarrinho();
+    }
+
+    internal void AtualizarItem(CarrinhoItem item)
+    {
+        if (!item.EhValido())
+        {
+            return;
+        }
+
+        item.AssociarCarrinho(Id);
+
+        var itemExistente = ObterProdutoPorId(item.ProdutoId);
+
+        Itens.Remove(itemExistente);
+        Itens.Add(item);
+
+        CalcularValorCarrinho();
+    }
+
+    internal void AtualizarUnidades(CarrinhoItem item, int unidades)
+    {
+        item.AtualizarUnidades(unidades);
+        AtualizarItem(item);
+    }
+
+    internal void RemoverItem(CarrinhoItem item)
+    {
+        var itemExistente = ObterProdutoPorId(item.ProdutoId);
+        Itens.Remove(itemExistente);
 
         CalcularValorCarrinho();
     }

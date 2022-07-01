@@ -24,7 +24,7 @@ public class CarrinhoItem
         CarrinhoId = carrinhoId;
     }
 
-    internal decimal CalcularValor()
+    internal decimal CalcularValorUnitario()
     {
         return Quantidade * Valor;
     }
@@ -32,6 +32,11 @@ public class CarrinhoItem
     internal void AdicionarUnidades(int unidades)
     {
         Quantidade += unidades;
+    }
+
+    internal void AtualizarUnidades(int unidades)
+    {
+        Quantidade = unidades;
     }
 
     internal bool EhValido()
