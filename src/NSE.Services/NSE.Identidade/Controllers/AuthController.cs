@@ -55,7 +55,7 @@ public class AuthController : MainController
         {
             foreach (var error in result.Errors)
             {
-                Erros.Add(error.Description);
+                AdicionarErroProcessamento(error.Description);
             }
 
             return CustomResponse();
@@ -97,11 +97,11 @@ public class AuthController : MainController
 
         if (result.IsLockedOut)
         {
-            Erros.Add("Usuário temporariamente bloqueado por tentativas inválidas.");
+            AdicionarErroProcessamento("Usuário temporariamente bloqueado por tentativas inválidas.");
             return CustomResponse();
         }
 
-        Erros.Add("Usuário ou Senha incorretos.");
+        AdicionarErroProcessamento("Usuário ou Senha incorretos.");
         return CustomResponse();
     }
 

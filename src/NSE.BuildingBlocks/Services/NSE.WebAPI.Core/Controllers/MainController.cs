@@ -27,7 +27,7 @@ public abstract class MainController : Controller
         var erros = modelState.Values.SelectMany(e => e.Errors);
         foreach (var erro in erros)
         {
-            Erros.Add(erro.ErrorMessage);
+            AdicionarErroProcessamento(erro.ErrorMessage);
         }
 
         return CustomResponse();
@@ -37,7 +37,7 @@ public abstract class MainController : Controller
     {
         foreach (var erro in validationResult.Errors)
         {
-            Erros.Add(erro.ErrorMessage);
+            AdicionarErroProcessamento(erro.ErrorMessage);
         }
 
         return CustomResponse();
@@ -45,4 +45,10 @@ public abstract class MainController : Controller
 
     protected bool OperacaoValida()
         => !Erros.Any();
+
+    protected void AdicionarErroProcessamento(string erro)
+        => Erros.Add(erro);
+
+    protected void LimparErrosProcessamento()
+        => Erros.Clear();
 }
