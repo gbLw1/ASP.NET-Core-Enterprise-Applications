@@ -1,3 +1,4 @@
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using NSE.Carrinho.Model;
 
@@ -19,6 +20,8 @@ public class CarrinhoContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Ignore<ValidationResult>();
+
         foreach (var property in modelBuilder.Model.GetEntityTypes()
             .SelectMany(e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
             property.SetColumnType("varchar(100)");
