@@ -2,6 +2,26 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "NSE.Carrinho.API",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build carrinho",
+            "program": "${workspaceFolder}/src/NSE.Services/NSE.Carrinho/bin/Debug/net6.0/NSE.Carrinho.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Carrinho",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": "NSE.Clientes.API",
             "type": "coreclr",
             "request": "launch",
@@ -94,6 +114,7 @@
                 "NSE.Identidade.API",
                 "NSE.Catalogo.API",
                 "NSE.Clientes.API",
+                "NSE.Carrinho.API",
                 "NSE.WebApp.MVC"
             ],
             "preLaunchTask": "build BuildingBlocks"
