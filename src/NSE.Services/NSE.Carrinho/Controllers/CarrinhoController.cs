@@ -34,8 +34,6 @@ public class CarrinhoController : MainController
         else
             ManipularCarrinhoExistente(carrinho, item);
 
-        ValidarCarrinho(carrinho);
-
         if (!OperacaoValida())
         {
             return CustomResponse();
@@ -115,6 +113,7 @@ public class CarrinhoController : MainController
     {
         var carrinho = new CarrinhoCliente(_user.ObterUserId());
         carrinho.AdicionarItem(item);
+        ValidarCarrinho(carrinho);
         _context.CarrinhoCliente.Add(carrinho);
     }
 
@@ -123,6 +122,8 @@ public class CarrinhoController : MainController
         var produtoExistente = carrinho.CarrinhoItemExistente(item);
 
         carrinho.AdicionarItem(item);
+
+        ValidarCarrinho(carrinho);
 
         if (produtoExistente)
         {

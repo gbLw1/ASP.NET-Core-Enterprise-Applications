@@ -11,7 +11,7 @@ public static class ClaimsPrincipalExtensions
             throw new ArgumentNullException(nameof(principal));
         }
 
-        var claim = principal.FindFirst("sub");
+        var claim = principal.FindFirst(ClaimTypes.NameIdentifier);
 
         return claim?.Value ?? throw new ArgumentNullException(nameof(claim));
     }
