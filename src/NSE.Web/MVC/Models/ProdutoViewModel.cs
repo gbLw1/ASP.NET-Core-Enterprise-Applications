@@ -1,4 +1,4 @@
-namespace MVC.Models;
+namespace NSE.WebApp.MVC.Models;
 
 public class ProdutoViewModel
 {

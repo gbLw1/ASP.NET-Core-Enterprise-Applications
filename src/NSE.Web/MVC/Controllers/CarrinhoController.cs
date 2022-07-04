@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MVC.Models;
+using NSE.WebApp.MVC.Models;
 using MVC.Services;
 
 namespace MVC.Controllers;

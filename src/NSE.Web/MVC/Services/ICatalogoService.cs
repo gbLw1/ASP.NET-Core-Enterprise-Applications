@@ -1,4 +1,4 @@
-using MVC.Models;
+using NSE.WebApp.MVC.Models;
 using Refit;
 
 namespace MVC.Services;
