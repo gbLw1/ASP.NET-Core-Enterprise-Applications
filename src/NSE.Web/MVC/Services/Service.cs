@@ -1,7 +1,7 @@
+using Core.Comunication;
+using MVC.Extensions;
 using System.Text;
 using System.Text.Json;
-using MVC.Extensions;
-using NSE.WebApp.MVC.Models;
 
 namespace MVC.Services;
 

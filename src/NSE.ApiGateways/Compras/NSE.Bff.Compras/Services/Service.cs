@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Core.Comunication;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 
@@ -25,11 +26,16 @@ public abstract class Service
         ?? throw new ArgumentNullException(nameof(response));
     }
 
-    protected bool HttpResponseHasErrors(HttpResponseMessage response)
+    protected bool TratarErrosResponse(HttpResponseMessage response)
     {
         if (response.StatusCode == HttpStatusCode.BadRequest) return false;
 
         response.EnsureSuccessStatusCode();
-        return false;
+        return true;
+    }
+
+    protected ResponseResult RetornoOk()
+    {
+        return new ResponseResult();
     }
 }

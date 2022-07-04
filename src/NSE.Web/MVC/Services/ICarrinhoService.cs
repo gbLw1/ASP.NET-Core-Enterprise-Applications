@@ -1,3 +1,4 @@
+using Core.Comunication;
 using NSE.WebApp.MVC.Models;
 
 namespace MVC.Services;

@@ -1,6 +1,7 @@
+using Core.Comunication;
+using MVC.Extensions;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using MVC.Extensions;
 
 namespace NSE.WebApp.MVC.Models;
 
