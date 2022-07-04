@@ -1,3 +1,4 @@
+using Core.Comunication;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -41,6 +42,23 @@ public abstract class MainController : Controller
         }
 
         return CustomResponse();
+    }
+
+    protected ActionResult CustomResponse(ResponseResult response)
+    {
+        ResponsePossuiErros(response);
+
+        return CustomResponse();
+    }
+
+    protected bool ResponsePossuiErros(ResponseResult response)
+    {
+        if (response is null || !response.Errors.Mensagens.Any()) return false;
+
+        foreach (var mensagem in response.Errors.Mensagens)
+            AdicionarErroProcessamento(mensagem);
+
+        return true;
     }
 
     protected bool OperacaoValida()
