@@ -1,6 +1,70 @@
 {
     "version": "0.2.0",
     "configurations": [
+        // Launch → Api Gateway: Compras
+        {
+            "name": "NSE.Bff.Compras",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build bff",
+            "program": "${workspaceFolder}/src/NSE.ApiGateways/Compras/NSE.Bff.Compras/bin/Debug/net6.0/NSE.Bff.Compras.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/NSE.ApiGateways/Compras/NSE.Bff.Compras",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        // Launch → API Pagamento
+        {
+            "name": "NSE.Pagamento",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build bff",
+            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/bin/Debug/net6.0/NSE.Pagamento.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        // Launch → API Pedido
+        {
+            "name": "NSE.Pedido",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build bff",
+            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pedido/bin/Debug/net6.0/NSE.Pedido.API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pedido",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        // Launch → API Carrinho
         {
             "name": "NSE.Carrinho.API",
             "type": "coreclr",
@@ -21,6 +85,7 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
+        // Launch → API Clientes
         {
             "name": "NSE.Clientes.API",
             "type": "coreclr",
@@ -41,6 +106,7 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
+        // Launch → API Catalogo
         {
             "name": "NSE.Catalogo.API",
             "type": "coreclr",
@@ -61,6 +127,7 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
+        // Launch → API Identidade
         {
             "name": "NSE.Identidade.API",
             "type": "coreclr",
@@ -81,6 +148,7 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
+        // Launch → WebApp MVC
         {
             "name": "NSE.WebApp.MVC",
             "type": "coreclr",
@@ -115,6 +183,7 @@
                 "NSE.Catalogo.API",
                 "NSE.Clientes.API",
                 "NSE.Carrinho.API",
+                "NSE.Bff.Compras",
                 "NSE.WebApp.MVC"
             ],
             "preLaunchTask": "build BuildingBlocks"
