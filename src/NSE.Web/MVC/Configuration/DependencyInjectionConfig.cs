@@ -37,7 +37,7 @@ public static class DependencyInjectionConfig
             .AddTransientHttpErrorPolicy(p =>
                 p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
-        services.AddHttpClient<ICarrinhoService, CarrinhoService>()
+        services.AddHttpClient<IComprasBffService, ComprasBffService>()
             .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
             .AddPolicyHandler(PollyExtension.EsperarTentar())
             .AddTransientHttpErrorPolicy(

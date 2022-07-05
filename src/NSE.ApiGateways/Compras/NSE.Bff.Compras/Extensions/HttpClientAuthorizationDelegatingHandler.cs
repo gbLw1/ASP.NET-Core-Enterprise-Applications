@@ -5,29 +5,30 @@ namespace NSE.Bff.Compras.Extensions;
 
 public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
 {
-    private readonly IAspNetUser _aspNetUser;
+    private readonly IAspNetUser _user;
 
-    public HttpClientAuthorizationDelegatingHandler(IAspNetUser aspNetUser)
+    public HttpClientAuthorizationDelegatingHandler(IAspNetUser user)
     {
-        _aspNetUser = aspNetUser;
+        _user = user;
     }
 
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    // * Handler que intercepta o request e adiciona o token de acesso no Header *
+    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var authorizationHeader = _aspNetUser.ObterHttpContext().Request.Headers["Authorization"];
+        var authorizationHeader = _user.ObterHttpContext().Request.Headers["Authorization"];
 
-        if (!string.IsNullOrEmpty(authorizationHeader))
+        if (!string.IsNullOrWhiteSpace(authorizationHeader))
         {
             request.Headers.Add("Authorization", new List<string>() { authorizationHeader });
         }
 
-        var token = _aspNetUser.ObterUserToken();
+        var token = _user.ObterUserToken();
 
-        if (token != null)
+        if (token is not null)
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 
-        return await base.SendAsync(request, cancellationToken);
+        return base.SendAsync(request, cancellationToken);
     }
 }
