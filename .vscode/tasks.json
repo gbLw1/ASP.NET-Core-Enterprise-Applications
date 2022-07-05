@@ -31,7 +31,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/NSE.Services/NSE.Pedido/NSE.Pedido.API.csproj",
+                "${workspaceFolder}/src/NSE.Services/NSE.Pedidos/NSE.Pedidos.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

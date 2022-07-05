@@ -1,0 +1,8 @@
+using Core.Data;
+
+namespace NSE.Pedidos.Domain.Vouchers;
+
+public interface IVoucherRepository : IRepository<Voucher>
+{
+    
+}

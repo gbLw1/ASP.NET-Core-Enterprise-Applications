@@ -45,13 +45,13 @@
         },
         // Launch → API Pedido
         {
-            "name": "NSE.Pedido",
+            "name": "NSE.Pedidos",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build bff",
-            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pedido/bin/Debug/net6.0/NSE.Pedido.API.dll",
+            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pedidos/bin/Debug/net6.0/NSE.Pedidos.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pedido",
+            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pedidos",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",

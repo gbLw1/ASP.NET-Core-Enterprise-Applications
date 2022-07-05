@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "NSE.Pedido.API": {
+    "NSE.Pedidos.API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
