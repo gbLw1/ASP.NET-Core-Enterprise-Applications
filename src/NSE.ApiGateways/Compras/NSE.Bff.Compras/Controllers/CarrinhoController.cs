@@ -11,12 +11,16 @@ public class CarrinhoController : MainController
 {
     private readonly ICarrinhoService _carrinhoService;
     private readonly ICatalogoService _catalogoService;
+    private readonly IPedidoService _pedidoService;
 
-    public CarrinhoController(ICarrinhoService carrinhoService,
-                              ICatalogoService catalogoService)
+    public CarrinhoController(
+        ICarrinhoService carrinhoService,
+        ICatalogoService catalogoService,
+        IPedidoService pedidoService)
     {
         _carrinhoService = carrinhoService;
         _catalogoService = catalogoService;
+        _pedidoService = pedidoService;
     }
 
     [HttpGet("compras/carrinho")]
@@ -80,6 +84,22 @@ public class CarrinhoController : MainController
         return CustomResponse(response);
     }
 
+    [HttpPost("compras/carrinho/aplicar-voucher")]
+    public async Task<IActionResult> AplicarVoucher([FromBody] string voucherCodigo)
+    {
+        var voucher = await _pedidoService.ObterVoucherPorCodigo(voucherCodigo);
+
+        if (voucher is null)
+        {
+            AdicionarErroProcessamento("Voucher invÃ¡lido ou nÃ£o encontrado!");
+            return CustomResponse();
+        }
+
+        var response = await _carrinhoService.AplicarVoucherCarrinho(voucher);
+
+        return CustomResponse();
+    }
+
     private async Task ValidarItemCarrinho(ItemProdutoDTO produto, int quantidade)
     {
         if (produto is null) AdicionarErroProcessamento("Produto inexistente!");
@@ -90,10 +110,10 @@ public class CarrinhoController : MainController
 
         if (itemCarrinho is not null && itemCarrinho.Quantidade + quantidade > produto?.QuantidadeEstoque)
         {
-            AdicionarErroProcessamento($"O produto {produto?.Nome} possui {produto?.QuantidadeEstoque} unidades em estoque, você selecionou {quantidade}");
+            AdicionarErroProcessamento($"O produto {produto?.Nome} possui {produto?.QuantidadeEstoque} unidades em estoque, vocï¿½ selecionou {quantidade}");
             return;
         }
 
-        if (quantidade > produto?.QuantidadeEstoque) AdicionarErroProcessamento($"O produto {produto?.Nome} possui {produto?.QuantidadeEstoque} unidades em estoque, você selecionou {quantidade}");
+        if (quantidade > produto?.QuantidadeEstoque) AdicionarErroProcessamento($"O produto {produto?.Nome} possui {produto?.QuantidadeEstoque} unidades em estoque, vocï¿½ selecionou {quantidade}");
     }
 }

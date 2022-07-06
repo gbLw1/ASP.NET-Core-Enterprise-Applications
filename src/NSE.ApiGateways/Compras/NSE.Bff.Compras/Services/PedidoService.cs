@@ -1,11 +1,13 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Net;
+using Microsoft.Extensions.Options;
 using NSE.Bff.Compras.Extensions;
+using NSE.Bff.Compras.Models;
 
 namespace NSE.Bff.Compras.Services;
 
 public interface IPedidoService
 {
-
+    Task<VoucherDTO?> ObterVoucherPorCodigo(string codigo);
 }
 
 public class PedidoService : Service, IPedidoService
@@ -17,5 +19,16 @@ public class PedidoService : Service, IPedidoService
         _httpClient = httpClient;
         _httpClient.BaseAddress = new Uri(settings.Value.PedidoUrl
             ?? throw new ArgumentNullException(nameof(settings.Value.PedidoUrl)));
+    }
+
+    public async Task<VoucherDTO?> ObterVoucherPorCodigo(string codigo)
+    {
+        var response = await _httpClient.GetAsync($"/voucher/{codigo}/");
+
+        if (response.StatusCode == HttpStatusCode.NotFound) return null;
+
+        TratarErrosResponse(response);
+
+        return await DeserializarObjetoResponse<VoucherDTO>(response);
     }
 }

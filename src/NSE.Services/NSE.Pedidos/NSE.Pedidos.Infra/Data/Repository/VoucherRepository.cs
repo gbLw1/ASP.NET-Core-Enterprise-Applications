@@ -15,7 +15,7 @@ public class VoucherRepository : IVoucherRepository
 
     public IUnitOfWork UnitOfWork => _context;
 
-    public async Task<Voucher> ObterVoucherPorCodigo(string codigo)
+    public async Task<Voucher?> ObterVoucherPorCodigo(string codigo)
     {
         return await _context.Vouchers.FirstOrDefaultAsync(p => p.Codigo == codigo);
     }

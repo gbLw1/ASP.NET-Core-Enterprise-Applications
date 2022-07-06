@@ -1,4 +1,5 @@
 using Core.DomainObjects;
+using NSE.Pedidos.Domain.Vouchers.Specs;
 
 namespace NSE.Pedidos.Domain.Vouchers;
 
@@ -14,4 +15,19 @@ public class Voucher : Entity, IAggregateRoot
     public DateTime DataValidade { get; private set; }
     public bool Ativo { get; private set; }
     public bool Utilizado { get; private set; }
+
+    public bool EstaValidoParaUtilizacao()
+    {
+        return new VoucherAtivoSpecification()
+            .And(new VoucherDataSpecification())
+            .And(new VoucherQuantidadeSpecification())
+            .IsSatisfiedBy(this);
+    }
+
+    public void MarcarComoUtilizado()
+    {
+        Ativo = false;
+        Utilizado = true;
+        Quantidade = 0;
+    }
 }
