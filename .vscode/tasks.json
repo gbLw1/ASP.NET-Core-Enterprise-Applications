@@ -26,12 +26,12 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build pedido",
+            "label": "build pedidos",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/NSE.Services/NSE.Pedidos/NSE.Pedidos.API.csproj",
+                "${workspaceFolder}/src/NSE.Services/NSE.Pedidos/NSE.Pedidos.API/NSE.Pedidos.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

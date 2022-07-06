@@ -27,7 +27,7 @@
             "name": "NSE.Pagamento",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build bff",
+            "preLaunchTask": "build pagamento",
             "program": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/bin/Debug/net6.0/NSE.Pagamento.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento",
@@ -48,10 +48,10 @@
             "name": "NSE.Pedidos",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build bff",
-            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pedidos/bin/Debug/net6.0/NSE.Pedidos.API.dll",
+            "preLaunchTask": "build pedidos",
+            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pedidos/NSE.Pedidos.API/bin/Debug/net6.0/NSE.Pedidos.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pedidos",
+            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pedidos/NSE.Pedidos.API",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -184,6 +184,7 @@
                 "NSE.Clientes.API",
                 "NSE.Carrinho.API",
                 "NSE.Bff.Compras",
+                "NSE.Pedidos",
                 "NSE.WebApp.MVC"
             ],
             "preLaunchTask": "build BuildingBlocks"

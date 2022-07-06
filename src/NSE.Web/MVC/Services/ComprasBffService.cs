@@ -12,6 +12,7 @@ public interface IComprasBffService
     Task<ResponseResult> AdicionarItemCarrinho(ItemCarrinhoViewModel itemCarrinho);
     Task<ResponseResult> AtualizarItemCarrinho(Guid produtoId, ItemCarrinhoViewModel produto);
     Task<ResponseResult> RemoverItemCarrinho(Guid produtoId);
+    Task<ResponseResult> AplicarVoucherCarrinho(string voucher);
 }
 
 public class ComprasBffService : Service, IComprasBffService
@@ -82,4 +83,14 @@ public class ComprasBffService : Service, IComprasBffService
         return RetornoOk();
     }
 
+    public async Task<ResponseResult> AplicarVoucherCarrinho(string voucher)
+    {
+        var itemContent = ObterConteudo(voucher);
+
+        var response = await _httpClient.PostAsync("/compras/carrinho/aplicar-voucher/", itemContent);
+
+        if (HttpResponseHasErrors(response)) return await DeserializarObjetoResponse<ResponseResult>(response);
+
+        return RetornoOk();
+    }
 }

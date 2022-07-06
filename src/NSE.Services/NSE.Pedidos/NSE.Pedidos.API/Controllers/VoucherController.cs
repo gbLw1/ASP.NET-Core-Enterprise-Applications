@@ -22,7 +22,7 @@ public class VoucherController : MainController
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<IActionResult> ObterPorCodigo(string codigo)
     {
-        if (!string.IsNullOrWhiteSpace(codigo)) return NotFound();
+        if (string.IsNullOrWhiteSpace(codigo)) return NotFound();
 
         var voucher = await _voucherQueries.ObterVoucherPorCodigo(codigo);
 
