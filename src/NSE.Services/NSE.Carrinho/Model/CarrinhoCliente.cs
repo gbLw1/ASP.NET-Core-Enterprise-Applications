@@ -13,6 +13,11 @@ public class CarrinhoCliente
     public List<CarrinhoItem> Itens { get; set; } = new List<CarrinhoItem>();
     public ValidationResult? ValidationResult { get; set; }
 
+    public bool VoucherUtilizado { get; set; }
+    public decimal Desconto { get; set; }
+
+    public Voucher? Voucher { get; set; }
+
     public CarrinhoCliente() { }
 
     public CarrinhoCliente(Guid clienteId)
@@ -21,8 +26,46 @@ public class CarrinhoCliente
         ClienteId = clienteId;
     }
 
+    public void AplicarVoucher(Voucher? voucher)
+    {
+        Voucher = voucher;
+        VoucherUtilizado = true;
+        CalcularValorCarrinho();
+    }
+
     internal void CalcularValorCarrinho()
-        => ValorTotal = Itens.Sum(i => i.CalcularValorUnitario());
+    {
+        ValorTotal = Itens.Sum(i => i.CalcularValorUnitario());
+        CalcularValorTotalDesconto();
+    }
+
+    private void CalcularValorTotalDesconto()
+    {
+        if (!VoucherUtilizado) return;
+
+        decimal desconto = 0;
+        var valor = ValorTotal;
+
+        if (Voucher!.TipoDesconto == TipoDesconto.Porcentagem)
+        {
+            if (Voucher.Percentual.HasValue)
+            {
+                desconto = (valor * Voucher.Percentual.Value) / 100;
+                valor -= desconto;
+            }
+        }
+        else
+        {
+            if (Voucher.ValorDesconto.HasValue)
+            {
+                desconto = Voucher.ValorDesconto.Value;
+                valor -= desconto;
+            }
+        }
+
+        ValorTotal = valor < 0 ? 0 : valor;
+        Desconto = desconto;
+    }
 
     internal bool CarrinhoItemExistente(CarrinhoItem item)
         => Itens.Any(i => i.ProdutoId == item.ProdutoId);

@@ -31,6 +31,24 @@ public class CarrinhoContext : DbContext
             .HasDatabaseName("IDX_Cliente");
 
         modelBuilder.Entity<CarrinhoCliente>()
+            .Ignore(c => c.Voucher)
+            .OwnsOne(c => c.Voucher, v =>
+            {
+                v.Property(voucher => voucher.Codigo)
+                    .HasColumnName("VoucherCodigo")
+                    .HasMaxLength(50);
+
+                v.Property(voucher => voucher.TipoDesconto)
+                    .HasColumnName("TipoDesconto");
+
+                v.Property(voucher => voucher.Percentual)
+                    .HasColumnName("Percentual");
+
+                v.Property(voucher => voucher.ValorDesconto)
+                    .HasColumnName("ValorDesconto");
+            });
+
+        modelBuilder.Entity<CarrinhoCliente>()
             .HasMany(c => c.Itens)
             .WithOne(i => i.CarrinhoCliente);
 
