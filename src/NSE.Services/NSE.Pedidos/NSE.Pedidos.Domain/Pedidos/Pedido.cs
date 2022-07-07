@@ -5,6 +5,21 @@ namespace NSE.Pedidos.Domain.Pedidos;
 
 public class Pedido : Entity, IAggregateRoot
 {
+    public Pedido(Guid clienteId, decimal valorTotal, List<PedidoItem> pedidoItems,
+        bool voucherUtilizado = false, decimal desconto = 0, Guid? voucherId = null)
+    {
+        ClienteId = clienteId;
+        ValorTotal = valorTotal;
+        _pedidoItems = pedidoItems;
+
+        Desconto = desconto;
+        VoucherUtilizado = voucherUtilizado;
+        VoucherId = voucherId;
+    }
+
+    // EF ctor
+    protected Pedido() { }
+
     public int Codigo { get; private set; }
     public Guid ClienteId { get; private set; }
     public Guid? VoucherId { get; private set; }
@@ -15,6 +30,7 @@ public class Pedido : Entity, IAggregateRoot
     public PedidoStatus PedidoStatus { get; private set; }
 
     private readonly List<PedidoItem> _pedidoItems = default!;
+
     public IReadOnlyCollection<PedidoItem> PedidoItems => _pedidoItems;
 
     public Endereco? Endereco { get; private set; }

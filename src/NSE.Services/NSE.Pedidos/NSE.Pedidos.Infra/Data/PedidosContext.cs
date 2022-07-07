@@ -4,6 +4,7 @@ using Core.Mediator;
 using Core.Messages;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
+using NSE.Pedidos.Domain.Pedidos;
 using NSE.Pedidos.Domain.Vouchers;
 
 namespace NSE.Pedidos.Infra.Data;
@@ -17,9 +18,13 @@ public class PedidosContext : DbContext, IUnitOfWork
     {
         _mediatorHandler = mediatorHandler;
         Vouchers = Set<Voucher>();
+        Pedidos = Set<Pedido>();
+        PedidoItems = Set<PedidoItem>();
     }
 
     public DbSet<Voucher> Vouchers { get; set; }
+    public DbSet<Pedido> Pedidos { get; set; }
+    public DbSet<PedidoItem> PedidoItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
