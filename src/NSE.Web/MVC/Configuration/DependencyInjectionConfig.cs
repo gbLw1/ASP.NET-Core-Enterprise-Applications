@@ -34,10 +34,16 @@ public static class DependencyInjectionConfig
             //     p.WaitAndRetryAsync(retryCount: 3,
             //                         sleepDurationProvider: _ => TimeSpan.FromMilliseconds(600)));
             .AddPolicyHandler(PollyExtension.EsperarTentar())
-            .AddTransientHttpErrorPolicy(p =>
-                p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+            .AddTransientHttpErrorPolicy(
+                p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
         services.AddHttpClient<IComprasBffService, ComprasBffService>()
+            .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+            .AddPolicyHandler(PollyExtension.EsperarTentar())
+            .AddTransientHttpErrorPolicy(
+                p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
+
+        services.AddHttpClient<IClienteService, ClienteService>()
             .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
             .AddPolicyHandler(PollyExtension.EsperarTentar())
             .AddTransientHttpErrorPolicy(
