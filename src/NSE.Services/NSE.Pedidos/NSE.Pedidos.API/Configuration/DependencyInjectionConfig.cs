@@ -1,5 +1,10 @@
 using Core.Mediator;
+using FluentValidation.Results;
+using MediatR;
+using NSE.Pedidos.API.Application.Commands;
+using NSE.Pedidos.API.Application.Events;
 using NSE.Pedidos.API.Application.Queries;
+using NSE.Pedidos.Domain.Pedidos;
 using NSE.Pedidos.Domain.Vouchers;
 using NSE.Pedidos.Infra.Data;
 using NSE.Pedidos.Infra.Data.Repository;
@@ -16,18 +21,18 @@ public static class DependencyInjectionConfig
         services.AddScoped<IAspNetUser, AspNetUser>();
 
         // Commands
-        //services.AddScoped<IRequestHandler<AdicionarPedidoCommand, ValidationResult>, PedidoCommandHandler>();
+        services.AddScoped<IRequestHandler<AdicionarPedidoCommand, ValidationResult>, PedidoCommandHandler>();
 
         // Events
-        //services.AddScoped<INotificationHandler<PedidoRealizadoEvent>, PedidoEventHandler>();
+        services.AddScoped<INotificationHandler<PedidoRealizadoEvent>, PedidoEventHandler>();
 
         // Application
         services.AddScoped<IMediatorHandler, MediatorHandler>();
         services.AddScoped<IVoucherQueries, VoucherQueries>();
-        // services.AddScoped<IPedidoQueries, PedidoQueries>();
+        services.AddScoped<IPedidoQueries, PedidoQueries>();
 
         // Data
-        // services.AddScoped<IPedidoRepository, PedidoRepository>();
+        services.AddScoped<IPedidoRepository, PedidoRepository>();
         services.AddScoped<IVoucherRepository, VoucherRepository>();
         services.AddScoped<PedidosContext>();
     }
