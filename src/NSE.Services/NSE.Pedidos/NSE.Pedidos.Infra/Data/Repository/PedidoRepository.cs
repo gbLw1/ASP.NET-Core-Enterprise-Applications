@@ -1,3 +1,4 @@
+using System.Data.Common;
 using Core.Data;
 using Microsoft.EntityFrameworkCore;
 using NSE.Pedidos.Domain.Pedidos;
@@ -12,6 +13,10 @@ public class PedidoRepository : IPedidoRepository
     {
         _context = context;
     }
+
+    public IUnitOfWork UnitOfWork => _context;
+
+    public DbConnection ObterConexao() => _context.Database.GetDbConnection();
 
     public async Task<Pedido?> ObterPorId(Guid id)
     {
@@ -47,8 +52,6 @@ public class PedidoRepository : IPedidoRepository
         return await _context.PedidoItems
             .FirstOrDefaultAsync(p => p.PedidoId == pedidoId && p.ProdutoId == produtoId);
     }
-
-    public IUnitOfWork UnitOfWork => _context;
 
     public void Dispose()
     {
