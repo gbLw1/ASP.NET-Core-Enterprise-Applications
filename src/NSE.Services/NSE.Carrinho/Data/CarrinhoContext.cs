@@ -54,6 +54,6 @@ public class CarrinhoContext : DbContext
 
         foreach (var relationship in modelBuilder.Model.GetEntityTypes()
             .SelectMany(e => e.GetForeignKeys()))
-            relationship.DeleteBehavior = DeleteBehavior.ClientSetNull;
+            relationship.DeleteBehavior = DeleteBehavior.Cascade;
     }
 }
