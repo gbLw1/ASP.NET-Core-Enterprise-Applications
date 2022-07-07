@@ -3,10 +3,7 @@ using NSE.Bff.Compras.Extensions;
 
 namespace NSE.Bff.Compras.Services;
 
-public interface IPagamentoService
-{
-
-}
+public interface IPagamentoService { }
 
 public class PagamentoService : Service, IPagamentoService
 {
