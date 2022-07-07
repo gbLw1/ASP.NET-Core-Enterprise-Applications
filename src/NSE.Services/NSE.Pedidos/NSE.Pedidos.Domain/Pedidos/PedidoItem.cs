@@ -15,14 +15,13 @@ public class PedidoItem : Entity
     public Pedido? Pedido { get; private set; }
 
     public PedidoItem(Guid produtoId, string? produtoNome, int quantidade,
-        decimal valorUnitario, string? produtoImagem, Pedido? pedido)
+        decimal valorUnitario, string? produtoImagem = null)
     {
         ProdutoId = produtoId;
         ProdutoNome = produtoNome;
         Quantidade = quantidade;
         ValorUnitario = valorUnitario;
         ProdutoImagem = produtoImagem;
-        Pedido = pedido;
     }
 
     // EF ctor

@@ -1,6 +1,6 @@
-namespace NSE.Pedidos.Domain.Pedidos;
+namespace NSE.Pedidos.API.Application.DTO;
 
-public class Endereco
+public class EnderecoDTO
 {
     public string? Logradouro { get; set; }
     public string? Numero { get; set; }
