@@ -9,7 +9,7 @@
 
         protected CartaoCredito() { }
 
-        public CartaoCredito(string nomeCartao, string numeroCartao, string mesAnoVencimento, string cvv)
+        public CartaoCredito(string? nomeCartao, string? numeroCartao, string? mesAnoVencimento, string? cvv)
         {
             NomeCartao = nomeCartao;
             NumeroCartao = numeroCartao;
