@@ -28,9 +28,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build pagamento",
-            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/bin/Debug/net6.0/NSE.Pagamento.API.dll",
+            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamento.API/bin/Debug/net6.0/NSE.Pagamento.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento",
+            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamento.API",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",

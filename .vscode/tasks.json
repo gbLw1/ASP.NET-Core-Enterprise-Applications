@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamento.API.csproj",
+                "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamento.API/NSE.Pagamento.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
