@@ -1,4 +1,8 @@
-﻿namespace NSE.Pedidos.API.Services;
+﻿using NSE.Core.Messages.Integration;
+using NSE.MessageBus;
+using NSE.Pedidos.API.Application.Queries;
+
+namespace NSE.Pedidos.API.Services;
 
 public class PedidoOrquestradorIntegrationHandler : IHostedService, IDisposable
 {
@@ -26,22 +30,23 @@ public class PedidoOrquestradorIntegrationHandler : IHostedService, IDisposable
     private async void ProcessarPedidos(object? state)
     {
         _logger.LogInformation("Processando Pedidos");
-        //using (var scope = _serviceProvider.CreateScope())
-        //{
-        //    var pedidoQueries = scope.ServiceProvider.GetRequiredService<IPedidoQueries>();
-        //    var pedido = await pedidoQueries.ObterPedidosAutorizados();
 
-        //    if (pedido == null) return;
+        using (var scope = _serviceProvider.CreateScope())
+        {
+            var pedidoQueries = scope.ServiceProvider.GetRequiredService<IPedidoQueries>();
+            var pedido = await pedidoQueries.ObterPedidosAutorizados();
 
-        //    var bus = scope.ServiceProvider.GetRequiredService<IMessageBus>();
+            if (pedido == null) return;
 
-        //    var pedidoAutorizado = new PedidoAutorizadoIntegrationEvent(pedido.ClienteId, pedido.Id,
-        //        pedido.PedidoItems.ToDictionary(p => p.ProdutoId, p => p.Quantidade));
+            var bus = scope.ServiceProvider.GetRequiredService<IMessageBus>();
 
-        //    await bus.PublishAsync(pedidoAutorizado);
+            var pedidoAutorizado = new PedidoAutorizadoIntegrationEvent(pedido.ClienteId, pedido.Id,
+                pedido.PedidoItems!.ToDictionary(p => p.ProdutoId, p => p.Quantidade));
 
-        //    _logger.LogInformation($"Pedido ID: {pedido.Id} foi encaminhado para baixa no estoque.");
-        //}
+            await bus.PublishAsync(pedidoAutorizado);
+
+            _logger.LogInformation($"Pedido ID: {pedido.Id} foi encaminhado para baixa no estoque.");
+        }
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
