@@ -14,7 +14,7 @@ public class AdicionarEnderecoCommand : Command
     public string? Cidade { get; private set; }
     public string? Estado { get; private set; }
 
-    public AdicionarEnderecoCommand() { }
+    //public AdicionarEnderecoCommand() { }
 
     public AdicionarEnderecoCommand(Guid clienteId, string logradouro, string numero, string complemento,
         string bairro, string cep, string cidade, string estado)

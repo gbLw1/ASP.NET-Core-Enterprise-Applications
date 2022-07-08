@@ -1,6 +1,6 @@
 using NSE.Catalogo.Data;
+using NSE.Catalogo.Data.Repository;
 using NSE.Catalogo.Models;
-using NSE.Catalogo.Repository;
 
 namespace NSE.Catalogo.Configurations;
 
