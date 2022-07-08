@@ -1,6 +1,8 @@
 using Core.Messages;
+using Core.Messages.Integration;
 using FluentValidation.Results;
 using MediatR;
+using NSE.MessageBus;
 using NSE.Pedidos.API.Application.DTO;
 using NSE.Pedidos.API.Application.Events;
 using NSE.Pedidos.Domain.Pedidos;
@@ -14,31 +16,34 @@ public class PedidoCommandHandler : CommandHandler,
 {
     private readonly IVoucherRepository _voucherRepository;
     private readonly IPedidoRepository _pedidoRepository;
+    private readonly IMessageBus _bus;
 
     public PedidoCommandHandler(
         IVoucherRepository voucherRepository,
-        IPedidoRepository pedidoRepository)
+        IPedidoRepository pedidoRepository,
+        IMessageBus bus)
     {
         _voucherRepository = voucherRepository;
         _pedidoRepository = pedidoRepository;
+        _bus = bus;
     }
 
     public async Task<ValidationResult> Handle(AdicionarPedidoCommand message, CancellationToken cancellationToken)
     {
         // Validação do comando
-        if (!message.Valido()) return message.ValidationResult;
+        if (message.Valido() is false) return message.ValidationResult;
 
         // Mapear pedido
         var pedido = MapearPedido(message);
 
         // Aplicar Voucher se houver
-        if (!await AplicarVoucher(message, pedido)) return ValidationResult;
+        if (await AplicarVoucher(message, pedido) is false) return ValidationResult;
 
         // Validar pedido
-        if (!ValidarPedido(pedido)) return ValidationResult;
+        if (ValidarPedido(pedido) is false) return ValidationResult;
 
         // Processar pagamento
-        if (!ProcessarPagamento(pedido)) return ValidationResult;
+        if (await ProcessarPagamento(pedido, message) is false) return ValidationResult;
 
         // Se pagamento tudo ok
         pedido.AutorizarPedido();
@@ -120,8 +125,29 @@ public class PedidoCommandHandler : CommandHandler,
         return true;
     }
 
-    public bool ProcessarPagamento(Pedido pedido)
+    public async Task<bool> ProcessarPagamento(Pedido pedido, AdicionarPedidoCommand message)
     {
-        return true;
+        var pedidoIniciado = new PedidoIniciadoIntegrationEvent
+        {
+            PedidoId = pedido.Id,
+            ClienteId = pedido.ClienteId,
+            Valor = pedido.ValorTotal,
+            TipoPagamento = 1, // Credito
+            NomeCartao = message.NomeCartao,
+            NumeroCartao = message.NumeroCartao,
+            MesAnoVencimento = message.ExpiracaoCartao,
+            CVV = message.CvvCartao
+        };
+
+        var result = await _bus.RequestAsync<PedidoIniciadoIntegrationEvent, ResponseMessage>(pedidoIniciado);
+
+        if (result.ValidationResult.IsValid) return true;
+
+        foreach (var erro in result.ValidationResult.Errors)
+        {
+            AdicionarErro(erro.ErrorMessage);
+        }
+
+        return false;
     }
 }
