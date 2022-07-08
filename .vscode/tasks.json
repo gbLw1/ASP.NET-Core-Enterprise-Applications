@@ -14,12 +14,12 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build pagamento",
+            "label": "build pagamentos",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamento.API/NSE.Pagamento.API.csproj",
+                "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamentos.API/NSE.Pagamentos.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

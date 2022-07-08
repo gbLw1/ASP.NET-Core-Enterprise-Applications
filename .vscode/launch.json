@@ -24,13 +24,13 @@
         },
         // Launch → API Pagamento
         {
-            "name": "NSE.Pagamento",
+            "name": "NSE.Pagamentos.API",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build pagamento",
-            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamento.API/bin/Debug/net6.0/NSE.Pagamento.API.dll",
+            "preLaunchTask": "build pagamentos",
+            "program": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamentos.API/bin/Debug/net6.0/NSE.Pagamentos.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamento.API",
+            "cwd": "${workspaceFolder}/src/NSE.Services/NSE.Pagamento/NSE.Pagamentos.API",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
@@ -45,7 +45,7 @@
         },
         // Launch → API Pedido
         {
-            "name": "NSE.Pedidos",
+            "name": "NSE.Pedidos.API",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build pedidos",
@@ -184,7 +184,8 @@
                 "NSE.Clientes.API",
                 "NSE.Carrinho.API",
                 "NSE.Bff.Compras",
-                "NSE.Pedidos",
+                "NSE.Pedidos.API",
+                "NSE.Pagamentos.API",
                 "NSE.WebApp.MVC"
             ],
             "preLaunchTask": "build BuildingBlocks"

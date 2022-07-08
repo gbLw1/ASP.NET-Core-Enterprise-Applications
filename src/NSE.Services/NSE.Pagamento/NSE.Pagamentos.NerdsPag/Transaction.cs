@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NSE.Pagamentos.NerdsPag;
+﻿namespace NSE.Pagamentos.NerdsPag;
 
 public class Transaction
 {
@@ -119,14 +115,14 @@ public class Transaction
 
         transaction = new Transaction
         {
-            AuthorizationCode = "",
-            CardBrand = "",
+            AuthorizationCode = string.Empty,
+            CardBrand = string.Empty,
             TransactionDate = DateTime.Now,
             Cost = 0,
             Amount = 0,
             Status = TransactionStatus.Refused,
-            Tid = "",
-            Nsu = ""
+            Tid = string.Empty,
+            Nsu = string.Empty
         };
 
         return Task.FromResult(transaction);
