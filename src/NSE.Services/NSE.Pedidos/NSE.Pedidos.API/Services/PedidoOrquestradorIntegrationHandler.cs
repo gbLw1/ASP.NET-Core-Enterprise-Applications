@@ -1,4 +1,4 @@
-﻿using NSE.Core.Messages.Integration;
+﻿using Core.Messages.Integration;
 using NSE.MessageBus;
 using NSE.Pedidos.API.Application.Queries;
 

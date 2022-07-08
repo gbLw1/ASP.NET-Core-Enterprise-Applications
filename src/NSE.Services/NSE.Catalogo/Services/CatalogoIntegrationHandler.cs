@@ -1,7 +1,6 @@
 ﻿using Core.DomainObjects;
 using Core.Messages.Integration;
 using NSE.Catalogo.Models;
-using NSE.Core.Messages.Integration;
 using NSE.MessageBus;
 
 namespace NSE.Catalogo.API.Services;

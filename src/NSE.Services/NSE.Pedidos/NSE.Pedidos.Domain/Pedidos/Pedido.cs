@@ -39,9 +39,13 @@ public class Pedido : Entity, IAggregateRoot
     public Voucher? Voucher { get; private set; }
 
     public void AutorizarPedido()
-    {
-        PedidoStatus = PedidoStatus.Autorizado;
-    }
+        => PedidoStatus = PedidoStatus.Autorizado;
+
+    public void CancelarPedido()
+        => PedidoStatus = PedidoStatus.Cancelado;
+
+    public void FinalizarPedido()
+        => PedidoStatus = PedidoStatus.Pago;
 
     public void AtribuirVoucher(Voucher voucher)
     {
@@ -51,9 +55,7 @@ public class Pedido : Entity, IAggregateRoot
     }
 
     public void AtribuirEndereco(Endereco endereco)
-    {
-        Endereco = endereco;
-    }
+        => Endereco = endereco;
 
     public void CalcularValorPedido()
     {

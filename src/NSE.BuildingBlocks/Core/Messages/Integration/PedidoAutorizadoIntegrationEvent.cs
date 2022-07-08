@@ -1,6 +1,5 @@
-﻿using Core.Messages.Integration;
+﻿namespace Core.Messages.Integration;
 
-namespace NSE.Core.Messages.Integration;
 public class PedidoAutorizadoIntegrationEvent : IntegrationEvent
 {
     public Guid ClienteId { get; private set; }
