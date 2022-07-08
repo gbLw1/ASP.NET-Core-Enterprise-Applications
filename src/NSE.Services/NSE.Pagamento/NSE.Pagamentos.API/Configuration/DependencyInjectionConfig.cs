@@ -1,4 +1,6 @@
 using NSE.Pagamentos.API.Data;
+using NSE.Pagamentos.API.Data.Repository;
+using NSE.Pagamentos.API.Facade;
 using NSE.Pagamentos.API.Models;
 using NSE.WebAPI.Core.Usuario;
 
@@ -11,10 +13,10 @@ public static class DependencyInjectionConfig
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<IAspNetUser, AspNetUser>();
 
-        //services.AddScoped<IPagamentoService, PagamentoService>();
-        //services.AddScoped<IPagamentoFacade, PagamentoCartaoCreditoFacade>();
+        // services.AddScoped<IPagamentoService, PagamentoService>();
+        services.AddScoped<IPagamentoFacade, PagamentoCartaoCreditoFacade>();
 
-        //services.AddScoped<IPagamentoRepository, PagamentoRepository>();
+        services.AddScoped<IPagamentoRepository, PagamentoRepository>();
         services.AddScoped<PagamentosContext>();
     }
 }

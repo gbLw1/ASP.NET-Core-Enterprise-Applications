@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NSE.Pagamentos.API.Data;
+using NSE.Pagamentos.API.Facade;
 using NSE.WebAPI.Core.Identidade;
 
 namespace NSE.Pagamentos.API.Configuration;
@@ -13,7 +14,7 @@ public static class ApiConfig
 
         services.AddControllers();
 
-        //services.Configure<PagamentoConfig>(configuration.GetSection("PagamentoConfig"));
+        services.Configure<PagamentoConfig>(configuration.GetSection("PagamentoConfig"));
 
         services.AddCors(options =>
         {
