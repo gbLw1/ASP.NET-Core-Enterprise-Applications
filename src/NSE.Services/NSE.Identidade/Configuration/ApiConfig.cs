@@ -1,4 +1,5 @@
 using NSE.WebAPI.Core.Identidade;
+using NSE.WebAPI.Core.Usuario;
 
 namespace NSE.Identidade.Configuration;
 
@@ -7,6 +8,9 @@ public static class ApiConfig
     public static IServiceCollection AddApiConfiguration(this IServiceCollection services)
     {
         services.AddControllers();
+
+        services.AddScoped<IAspNetUser, AspNetUser>();
+
         services.AddEndpointsApiExplorer();
 
         return services;
@@ -30,6 +34,9 @@ public static class ApiConfig
         {
             endpoints.MapControllers();
         });
+
+        // localhost/jwks
+        app.UseJwksDiscovery();
 
         return app;
     }
