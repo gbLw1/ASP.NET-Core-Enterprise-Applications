@@ -29,14 +29,12 @@ public class PedidoOrquestradorIntegrationHandler : IHostedService, IDisposable
 
     private async void ProcessarPedidos(object? state)
     {
-        _logger.LogInformation("Processando Pedidos");
-
         using (var scope = _serviceProvider.CreateScope())
         {
             var pedidoQueries = scope.ServiceProvider.GetRequiredService<IPedidoQueries>();
             var pedido = await pedidoQueries.ObterPedidosAutorizados();
 
-            if (pedido == null) return;
+            if (pedido is null) return;
 
             var bus = scope.ServiceProvider.GetRequiredService<IMessageBus>();
 

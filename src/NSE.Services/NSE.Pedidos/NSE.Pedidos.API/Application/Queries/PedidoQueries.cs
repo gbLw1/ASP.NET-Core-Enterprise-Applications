@@ -8,7 +8,7 @@ public interface IPedidoQueries
 {
     Task<PedidoDTO> ObterUltimoPedido(Guid clienteId);
     Task<IEnumerable<PedidoDTO>> ObterListaPorClienteId(Guid clienteId);
-    Task<PedidoDTO> ObterPedidosAutorizados();
+    Task<PedidoDTO?> ObterPedidosAutorizados();
 }
 
 public class PedidoQueries : IPedidoQueries
@@ -46,10 +46,10 @@ public class PedidoQueries : IPedidoQueries
         return pedidos.Select(PedidoDTO.ParaPedidoDTO);
     }
 
-    public async Task<PedidoDTO> ObterPedidosAutorizados()
+    public async Task<PedidoDTO?> ObterPedidosAutorizados()
     {
         // Correção para pegar todos os itens do pedido e ordernar pelo pedido mais antigo
-        const string sql = @"SELECT 
+        const string sql = @"SELECT
                                 P.ID as 'PedidoId', P.ID, P.CLIENTEID, 
                                 PI.ID as 'PedidoItemId', PI.ID, PI.PRODUTOID, PI.QUANTIDADE 
                                 FROM PEDIDOS P 
@@ -66,7 +66,7 @@ public class PedidoQueries : IPedidoQueries
                 return p;
             }, splitOn: "PedidoId,PedidoItemId");
 
-        return pedido.FirstOrDefault()!;
+        return pedido.FirstOrDefault();
 
         #region [Próxima implementação]
 
