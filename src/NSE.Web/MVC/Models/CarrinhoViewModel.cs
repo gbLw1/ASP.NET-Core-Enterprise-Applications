@@ -1,5 +1,3 @@
-using MVC.Models;
-
 namespace NSE.WebApp.MVC.Models;
 
 public class CarrinhoViewModel

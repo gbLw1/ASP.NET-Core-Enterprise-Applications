@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MVC.Models;
 using MVC.Services;
+using NSE.WebApp.MVC.Models;
 
 namespace MVC.Controllers;
 

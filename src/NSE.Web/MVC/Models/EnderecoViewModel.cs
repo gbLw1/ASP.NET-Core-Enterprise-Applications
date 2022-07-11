@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace MVC.Models;
+namespace NSE.WebApp.MVC.Models;
 
 public class EnderecoViewModel
 {

@@ -19,11 +19,11 @@ public class CatalogoController : MainController
     [AllowAnonymous]
     [HttpGet("catalogo/produtos")]
     public async Task<PagedResult<Produto>> Index(
-        [FromQuery] int pageSize = 8,
-        [FromQuery] int pageIndex = 1,
-        [FromQuery] string? query = null)
+        [FromQuery] int ps = 8,
+        [FromQuery] int page = 1,
+        [FromQuery] string? q = null)
     {
-        return await _produtoRepository.ObterTodos(pageSize, pageIndex, query);
+        return await _produtoRepository.ObterTodos(ps, page, q);
     }
 
     [ClaimsAuthorize("Catalogo", "Ler")]

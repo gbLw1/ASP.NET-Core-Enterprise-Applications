@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using MVC.Models;
-
-namespace NSE.WebApp.MVC.Models
+﻿namespace NSE.WebApp.MVC.Models
 {
     public class PedidoViewModel
     {

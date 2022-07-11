@@ -1,7 +1,6 @@
 using Core.Comunication;
 using Microsoft.Extensions.Options;
 using MVC.Extensions;
-using MVC.Models;
 using NSE.WebApp.MVC.Models;
 
 namespace MVC.Services;
