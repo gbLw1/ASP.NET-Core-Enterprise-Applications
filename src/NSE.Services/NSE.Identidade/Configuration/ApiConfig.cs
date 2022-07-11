@@ -1,3 +1,4 @@
+using NSE.Identidade.API.Services;
 using NSE.WebAPI.Core.Identidade;
 using NSE.WebAPI.Core.Usuario;
 
@@ -10,6 +11,7 @@ public static class ApiConfig
         services.AddControllers();
 
         services.AddScoped<IAspNetUser, AspNetUser>();
+        services.AddScoped<AuthenticationService>();
 
         services.AddEndpointsApiExplorer();
 
