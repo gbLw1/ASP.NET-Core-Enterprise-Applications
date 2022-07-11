@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NSE.Identidade.Data;
 using NSE.Identidade.Extensions;
-using NSE.WebAPI.Core.Identidade;
 
 namespace NSE.Identidade.Configuration;
 
@@ -23,9 +22,6 @@ public static class IdentityConfig
             .AddErrorDescriber<IdentityMensagensPortugues>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
-
-        // JWT Config
-        services.AddJwtConfiguration(configuration);
 
         return services;
     }
