@@ -1,5 +1,5 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace NSE.WebAPI.Core.Usuario;
 
@@ -25,6 +25,9 @@ public class AspNetUser : IAspNetUser
 
     public string ObterUserToken()
         => EstaAutenticado() ? ObterHttpContext().User.GetUserToken() : string.Empty;
+
+    public string ObterUserRefreshToken()
+        => EstaAutenticado() ? ObterHttpContext().User.GetUserRefreshToken() : string.Empty;
 
     public bool PossuiRole(string role)
         => ObterHttpContext().User.IsInRole(role);

@@ -39,4 +39,16 @@ public static class ClaimsPrincipalExtensions
 
         return claim?.Value!;
     }
+
+    public static string GetUserRefreshToken(this ClaimsPrincipal principal)
+    {
+        if (principal is null)
+        {
+            throw new ArgumentNullException(nameof(principal));
+        }
+
+        var claim = principal.FindFirst("RefreshToken");
+
+        return claim?.Value!;
+    }
 }
