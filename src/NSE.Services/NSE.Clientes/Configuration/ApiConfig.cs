@@ -26,10 +26,7 @@ public static class ApiConfig
 
     public static void UseApiConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
+        app.UseDeveloperExceptionPage();
 
         app.UseHttpsRedirection();
 

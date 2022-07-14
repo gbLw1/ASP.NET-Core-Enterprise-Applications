@@ -1,5 +1,5 @@
-using System.Linq.Expressions;
 using NetDevPack.Specification;
+using System.Linq.Expressions;
 
 namespace NSE.Pedidos.Domain.Vouchers.Specs;
 

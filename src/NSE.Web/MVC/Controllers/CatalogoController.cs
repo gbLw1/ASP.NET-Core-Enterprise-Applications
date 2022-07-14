@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MVC.Services;
 
@@ -28,6 +29,7 @@ public class CatalogoController : MainController
     }
 
     [HttpGet]
+    [Authorize]
     [Route("produto-detalhe/{id:guid}")]
     public async Task<IActionResult> ProdutoDetalhe(Guid id)
     {

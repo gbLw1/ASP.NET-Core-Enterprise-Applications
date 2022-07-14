@@ -1,6 +1,6 @@
-using System.Diagnostics.CodeAnalysis;
 using FluentValidation.Results;
 using MediatR;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Core.Messages;
 

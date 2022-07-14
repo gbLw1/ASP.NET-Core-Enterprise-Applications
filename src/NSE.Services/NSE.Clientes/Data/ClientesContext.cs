@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
 using Core.Data;
 using Core.DomainObjects;
 using Core.Mediator;
 using Core.Messages;
 using Microsoft.EntityFrameworkCore;
 using NSE.Clientes.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace NSE.Clientes.Data;
 
@@ -72,10 +72,11 @@ public static class MediatorExtension
             .ForEach(entity => entity.Entity.LimparEventos());
 
         var tasks = domainEvents
-            .Select(async (domainEvent) => {
+            .Select(async (domainEvent) =>
+            {
                 await mediator.PublicarEvento(domainEvent);
             });
 
         await Task.WhenAll(tasks);
     }
-} 
+}

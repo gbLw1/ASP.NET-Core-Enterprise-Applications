@@ -20,11 +20,14 @@ public static class ApiConfig
 
     public static IApplicationBuilder UseApiConfiguration(this IApplicationBuilder app, IWebHostEnvironment environment)
     {
-        // Configure the HTTP request pipeline.
-        if (environment.IsDevelopment())
+        app.UseCors(options =>
         {
-            app.UseDeveloperExceptionPage();
-        }
+            options.AllowAnyHeader();
+            options.AllowAnyMethod();
+            options.AllowAnyOrigin();
+        });
+
+        app.UseDeveloperExceptionPage();
 
         app.UseHttpsRedirection();
 

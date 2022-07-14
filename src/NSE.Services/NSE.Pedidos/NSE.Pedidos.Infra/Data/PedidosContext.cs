@@ -52,7 +52,7 @@ public class PedidosContext : DbContext, IUnitOfWork
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Property("DataCadastro").CurrentValue = DateTime.Now;
+                entry.Property("DataCadastro").CurrentValue = DateTime.UtcNow;
             }
 
             if (entry.State == EntityState.Modified)
@@ -70,7 +70,8 @@ public class PedidosContext : DbContext, IUnitOfWork
 
 public static class MediatorExtension
 {
-    public static async Task PublicarEventos<T>(this IMediatorHandler mediator, T ctx) where T : DbContext
+    public static async Task PublicarEventos<T>(this IMediatorHandler mediator, T ctx)
+        where T : DbContext
     {
         var domainEntities = ctx.ChangeTracker
             .Entries<Entity>()

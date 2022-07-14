@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSE.Catalogo.Models;
 using NSE.WebAPI.Core.Controllers;
-using NSE.WebAPI.Core.Identidade;
 
 namespace NSE.Catalogo.Controllers;
 
@@ -26,7 +25,7 @@ public class CatalogoController : MainController
         return await _produtoRepository.ObterTodos(ps, page, q);
     }
 
-    [ClaimsAuthorize("Catalogo", "Ler")]
+    //[ClaimsAuthorize("Catalogo", "Ler")]
     [HttpGet("catalogo/produtos/{id}")]
     public async Task<Produto> ProdutoDetalhe(Guid id)
     {
