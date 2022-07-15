@@ -2,16 +2,14 @@
 
 public class Transaction
 {
-    public Transaction(NerdsPagService nerdsPagService)
+    public Transaction(NerdsPagService? nerdsPagService)
     {
         NerdsPagService = nerdsPagService;
     }
 
-#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
     protected Transaction() { }
-#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
-    private readonly NerdsPagService NerdsPagService;
+    private readonly NerdsPagService? NerdsPagService;
 
     #region [+ Propriedades]
 

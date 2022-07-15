@@ -106,7 +106,7 @@ public class AuthController : MainController
         {
             return await _bus.RequestAsync<UsuarioRegistradoIntegrationEvent, ResponseMessage>(usuarioRegistrado);
         }
-        catch
+        catch (Exception ex)
         {
             await _authenticationService.UserManager.DeleteAsync(usuario);
             throw;

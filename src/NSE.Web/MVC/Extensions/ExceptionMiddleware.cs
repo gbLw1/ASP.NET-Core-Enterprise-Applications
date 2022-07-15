@@ -8,7 +8,7 @@ namespace MVC.Extensions;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    private static IAutenticacaoService _autenticacaoService;
+    private static IAutenticacaoService? _autenticacaoService;
 
     public ExceptionMiddleware(RequestDelegate next)
     {
@@ -17,7 +17,7 @@ public class ExceptionMiddleware
 
     public async Task InvokeAsync(
         HttpContext httpContext,
-        IAutenticacaoService autenticacaoService)
+        IAutenticacaoService? autenticacaoService)
     {
         _autenticacaoService = autenticacaoService;
 
@@ -47,7 +47,7 @@ public class ExceptionMiddleware
     {
         if (httpResponseException.StatusCode == HttpStatusCode.Unauthorized)
         {
-            if (_autenticacaoService.TokenExpirado())
+            if (_autenticacaoService!.TokenExpirado())
             {
                 // Obter novo JWT
                 if (_autenticacaoService.RefreshTokenValido().Result)

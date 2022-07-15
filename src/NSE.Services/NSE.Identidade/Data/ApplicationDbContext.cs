@@ -8,10 +8,12 @@ namespace NSE.Identidade.Data;
 
 public class ApplicationDbContext : IdentityDbContext, ISecurityKeyContext
 {
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options) { }
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        : base(options)
+    {
+        SecurityKeys = Set<KeyMaterial>();
+        RefreshTokens = Set<RefreshToken>();
+    }
 
     public DbSet<KeyMaterial> SecurityKeys { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }

@@ -3,25 +3,25 @@ using EasyNetQ;
 using EasyNetQ.Internals;
 using Polly;
 using RabbitMQ.Client.Exceptions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NSE.MessageBus;
 
 public class MessageBus : IMessageBus
 {
-    private IBus _bus;
+    private IBus? _bus;
     private IAdvancedBus _advancedBus;
     private readonly string _connectionString;
 
-#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
     public MessageBus(string connectionString)
     {
         _connectionString = connectionString;
         TryConnect();
     }
-#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
     public bool IsConnected => _bus?.Advanced.IsConnected ?? false;
-    public IAdvancedBus AdvancedBus => _bus.Advanced;
+
+    public IAdvancedBus AdvancedBus => _bus?.Advanced ?? throw new NullReferenceException(nameof(_bus));
 
     public void Publish<T>(T message) where T : IntegrationEvent
     {
@@ -79,22 +79,31 @@ public class MessageBus : IMessageBus
         return _bus.Rpc.RespondAsync(responder);
     }
 
+    [MemberNotNull(nameof(_bus), nameof(_advancedBus))]
     private void TryConnect()
     {
-        if (IsConnected)
+        if (IsConnected && _bus is not null && _advancedBus is not null)
+        {
             return;
+        }
 
         var policy = Policy.Handle<EasyNetQException>()
             .Or<BrokerUnreachableException>()
             .WaitAndRetry(3, retryAttempt =>
                 TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
-        policy.Execute(() =>
+
+        policy.Execute([MemberNotNull(nameof(_bus), nameof(_advancedBus))] () =>
         {
             _bus = RabbitHutch.CreateBus(_connectionString);
             _advancedBus = _bus.Advanced;
             _advancedBus.Disconnected += OnDisconnect;
         });
+
+        if (_bus is null || _advancedBus is null)
+        {
+            throw new NullReferenceException(nameof(_bus));
+        }
     }
 
     private void OnDisconnect(object? s, EventArgs e)
