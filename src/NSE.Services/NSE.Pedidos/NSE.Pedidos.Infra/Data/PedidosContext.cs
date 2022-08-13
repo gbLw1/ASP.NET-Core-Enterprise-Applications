@@ -52,7 +52,7 @@ public class PedidosContext : DbContext, IUnitOfWork
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Property("DataCadastro").CurrentValue = DateTime.UtcNow;
+                entry.Property("DataCadastro").CurrentValue = DateTime.Now;
             }
 
             if (entry.State == EntityState.Modified)

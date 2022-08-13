@@ -60,7 +60,7 @@ public class PedidoQueries : IPedidoQueries
         var pedido = await _pedidoRepository.ObterConexao().QueryAsync<PedidoDTO, PedidoItemDTO, PedidoDTO>(sql,
             (p, pi) =>
             {
-                p.PedidoItems = new List<PedidoItemDTO>();
+                p.PedidoItems ??= new List<PedidoItemDTO>();
                 p.PedidoItems.Add(pi);
 
                 return p;
