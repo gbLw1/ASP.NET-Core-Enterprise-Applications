@@ -21,10 +21,6 @@
 
 ---
 
-## Desenvolvimento da aplicação
-
----
-
   Plataforma de aprendizagem : [desenvolvedor.io](https://desenvolvedor.io/cursos)  
   Curso : [ASP.NET Core Enterprise Applications](https://desenvolvedor.io/curso-online-asp-net-core-enterprise-applications)  
   Instrutor : [Eduardo Pires](https://desenvolvedor.io/instrutor/eduardo-pires)
